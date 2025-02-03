@@ -24,6 +24,9 @@ enum GameState
 
 class Party
 {
+public:
+
+private:
 	//Room variables
 	std::vector<Player> m_vPlayerList;
 	int m_score;
@@ -33,5 +36,7 @@ class Party
 	Vector2f m_vBallPos;
 	Vector2f m_vPlayerPos1;
 	Vector2f m_vPlayerPos2;
+
+	Vector2f m_vWindowSize;
 };
 
