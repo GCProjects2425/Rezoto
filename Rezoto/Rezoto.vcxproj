@@ -133,11 +133,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="pong.cpp" />
+    <ClCompile Include="PongScreen.cpp" />
     <ClCompile Include="Rezoto.cpp" />
+    <ClCompile Include="TitleScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameScreen.h" />
     <ClInclude Include="pong.h" />
+    <ClInclude Include="PongScreen.h" />
+    <ClInclude Include="TitleScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
