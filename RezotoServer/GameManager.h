@@ -6,5 +6,6 @@ class GameManager final : public Singleton<GameManager>
 public:
 
 private:
+
 };
 
