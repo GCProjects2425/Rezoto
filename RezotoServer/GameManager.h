@@ -3,6 +3,8 @@
 class GameManager final : public Singleton<GameManager>
 {
 	friend class Singleton<GameManager>;
+public:
+
 private:
 };
 
