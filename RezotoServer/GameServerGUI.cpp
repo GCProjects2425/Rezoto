@@ -1,5 +1,6 @@
 #include <iostream>
 #include "GameServerGUI.h"
+#include "GameManager.h"
 
 void GameServerGUI::RegisterWindowClass() {
     WNDCLASS wc = {};
@@ -24,11 +25,11 @@ void GameServerGUI::CreateAppWindow() {
         20, 50, 150, 30, hwnd, (HMENU)ID_BUTTON_CREATE, NULL, NULL);
     CreateWindowA("BUTTON", "Voir Infos", WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
         20, 100, 150, 30, hwnd, (HMENU)ID_BUTTON_VIEW, NULL, NULL);
-    hwndLog = CreateWindowA("EDIT", "", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_MULTILINE | ES_READONLY | WS_VSCROLL,
-        200, 50, 250, 150, hwnd, NULL, NULL, NULL);
+    hwndListBox = CreateWindowA("LISTBOX", "", WS_VISIBLE | WS_CHILD | WS_BORDER | LBS_NOTIFY | WS_VSCROLL,
+        200, 50, 250, 150, hwnd, (HMENU)ID_LISTBOX, NULL, NULL);
 
     ShowWindow(hwnd, SW_SHOWDEFAULT);
-    SetTimer(hwnd, 1, 1000, NULL); // Mise à jour des logs toutes les secondes
+    SetTimer(hwnd, 1, 1000, NULL);
 }
 
 void GameServerGUI::MessageLoop() {
@@ -39,6 +40,23 @@ void GameServerGUI::MessageLoop() {
     }
 }
 
+void GameServerGUI::UpdateListBox()
+{
+    SendMessage(hwndListBox, LB_RESETCONTENT, 0, 0);
+    if (GameManager* manager = GameManager::GetInstance())
+    {
+        const GameManager::PartyList& partyList = manager->GetPartyList();
+        if (partyList.empty()) return;
+
+        for (const Party& p : partyList)
+        {
+            char buffer[50];
+            sprintf_s(buffer, "Party %d | 2/4 players", p.GetID());
+            SendMessageA(hwndListBox, LB_ADDSTRING, 0, (LPARAM)buffer);
+        }
+    }
+}
+
 LRESULT GameServerGUI::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
@@ -46,10 +64,21 @@ LRESULT GameServerGUI::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
         switch (LOWORD(wParam)) {
         case ID_BUTTON_CREATE:
         {
-            //std::lock_guard<std::mutex> lock(logMutex);
-            std::string log = "Nouvelle partie créée !";
-            //logQueue.push(log);
-            std::cout << log << std::endl;  // Log dans la console
+            if (GameManager* manager = GameManager::GetInstance())
+            {
+                int ID = manager->CreateParty();
+                if (ID > 0)
+                {
+                    std::string log = "New party created : ";
+                    //logQueue.push(log);
+                    std::cout << log << ID << std::endl;  // Log dans la console
+                    UpdateListBox();
+                }
+                else
+                {
+                    std::cout << "Max party reached (20)." << std::endl;
+                }
+            }
         }
         break;
         case ID_BUTTON_VIEW:

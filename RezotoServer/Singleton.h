@@ -4,13 +4,13 @@
 template < typename T >
 class Singleton {
 public:
-    static T& GetInstance() {
+    static T* GetInstance() {
         static MemGuard g; // clean up on program end
         std::lock_guard<std::mutex> lock(mutex_);
         if (!m_instance) {
             m_instance = new T();
         }
-        return *m_instance;
+        return m_instance;
     }
 
     Singleton(const Singleton&) = delete;

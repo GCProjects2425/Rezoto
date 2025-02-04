@@ -25,18 +25,20 @@ enum GameState
 class Party
 {
 public:
+	Party();
 
+	int GetID() const { return m_ID; }
 private:
 	//Room variables
-	std::vector<Player> m_vPlayerList;
+	std::vector<Player*> m_vPlayerList;
 	int m_score;
-	int id;
+	int m_ID;
 
 	//Game variables
-	Vector2f m_vBallPos;
-	Vector2f m_vPlayerPos1;
-	Vector2f m_vPlayerPos2;
+	Vector2f m_vBallPos{ 0 };
+	Vector2f m_vPlayerPos1{ 0 };
+	Vector2f m_vPlayerPos2{ 0 };
 
-	Vector2f m_vWindowSize;
+	Vector2f m_vWindowSize{ 0 };
 };
 
