@@ -142,7 +142,9 @@
     <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="PongScreen.cpp" />
     <ClCompile Include="Rezoto.cpp" />
+    <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
+    <ClCompile Include="UDPClient.cpp" />
     <ClCompile Include="UiElement.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,7 +154,9 @@
     <ClInclude Include="InputField.h" />
     <ClInclude Include="GameClient.h" />
     <ClInclude Include="PongScreen.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="TitleScreen.h" />
+    <ClInclude Include="UDPClient.h" />
     <ClInclude Include="UiElement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

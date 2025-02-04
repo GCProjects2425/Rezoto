@@ -26,7 +26,7 @@ void InputField::Update()
         while (key > 0)
         {
             // NOTE: Only allow keys in range [32..125]
-            if ((key >= 32) && (key <= 125) && (letterCount < 10))
+            if ((((key >= 48) && (key <= 57)) || key == 46) && (letterCount < 12))
             {
                 name[letterCount] = (char)key;
                 name[letterCount + 1] = '\0'; // Add null terminator at the end of the string.
@@ -59,7 +59,7 @@ void InputField::Draw()
 
     if (mouseOnText)
     {
-        if (letterCount < 10)
+        if (letterCount < 12)
         {
             // Draw blinking underscore char
             if (((framesCounter / 20) % 2) == 0) DrawText("_", (int)textBox.x + 8 + MeasureText(name, 40), (int)textBox.y + 12, 40, MAROON);
