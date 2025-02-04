@@ -3,7 +3,7 @@
 void TitleScreen::ComputeLogic(Pong* pong)
 {
 	if (IsKeyPressed(KEY_ENTER)) 
-		pong->SetScreen(pong->PongScreen);
+		pong->SetScreen(pong->ConnectionRoom);
 	pong->ResetGame();
 }
 

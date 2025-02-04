@@ -22,6 +22,7 @@ public:
 
 	GameScreen* PongScreen;
 	GameScreen* TitleScreen;
+	GameScreen* ConnectionRoom;
 
 	Rectangle screen, playableBorder, top, bottom, ball, leftRacket, rightRacket;
 	int rightScore, leftScore, scoreWidth, winner;

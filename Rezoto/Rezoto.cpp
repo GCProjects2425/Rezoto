@@ -1,11 +1,9 @@
-// Ici c'est le jeu
-//
-
 #include <iostream>
 #include "raylib.h"
 #include "pong.h"
 #include "PongScreen.h"
 #include "TitleScreen.h"
+#include "ConnectionRoom.h"
 
 Rectangle textBox = { 800 / 2.0f - 100, 180, 225, 50 };
 bool mouseOnText = false;
@@ -15,7 +13,7 @@ int main(void)
     Pong* pong = new Pong();
     pong->TitleScreen = new TitleScreen;
     pong->PongScreen = new PongScreen;
-
+    pong->ConnectionRoom = new ConnectionRoom;
     pong->SetScreen(pong->TitleScreen);
     pong->InitializeElements();
 

@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConnectionRoom.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="pong.cpp" />
     <ClCompile Include="PongScreen.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="TitleScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConnectionRoom.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="pong.h" />
     <ClInclude Include="PongScreen.h" />
