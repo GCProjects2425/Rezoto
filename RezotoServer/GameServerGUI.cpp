@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 #include "GameServerGUI.h"
 #include "GameManager.h"
 
@@ -21,10 +22,12 @@ void GameServerGUI::CreateAppWindow() {
     }
 
     // Création des éléments UI
-    CreateWindowA("BUTTON", "Créer Partie", WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+    CreateWindowA("BUTTON", "Create party", WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
         20, 50, 150, 30, hwnd, (HMENU)ID_BUTTON_CREATE, NULL, NULL);
-    CreateWindowA("BUTTON", "Voir Infos", WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+    CreateWindowA("BUTTON", "View party infos", WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
         20, 100, 150, 30, hwnd, (HMENU)ID_BUTTON_VIEW, NULL, NULL);
+    CreateWindowA("BUTTON", "Delete party", WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+        20, 150, 150, 30, hwnd, (HMENU)ID_BUTTON_DELETE, NULL, NULL);
     hwndListBox = CreateWindowA("LISTBOX", "", WS_VISIBLE | WS_CHILD | WS_BORDER | LBS_NOTIFY | WS_VSCROLL,
         200, 50, 250, 150, hwnd, (HMENU)ID_LISTBOX, NULL, NULL);
 
@@ -42,7 +45,7 @@ void GameServerGUI::MessageLoop() {
 
 void GameServerGUI::UpdateListBox()
 {
-    SendMessage(hwndListBox, LB_RESETCONTENT, 0, 0);
+    SendMessageA(hwndListBox, LB_RESETCONTENT, 0, 0);
     if (GameManager* manager = GameManager::GetInstance())
     {
         const GameManager::PartyList& partyList = manager->GetPartyList();
@@ -55,6 +58,41 @@ void GameServerGUI::UpdateListBox()
             SendMessageA(hwndListBox, LB_ADDSTRING, 0, (LPARAM)buffer);
         }
     }
+}
+
+void GameServerGUI::OnListBoxSelection() {
+    int selIndex = SendMessageA(hwndListBox, LB_GETCURSEL, 0, 0);
+    if (selIndex != LB_ERR) {
+        int textLength = SendMessageA(hwndListBox, LB_GETTEXTLEN, selIndex, 0);
+        if (textLength > 0)
+        {
+            char* gameName = new char[textLength + 1];
+            ZeroMemory(gameName, textLength + 1);
+
+            SendMessageA(hwndListBox, LB_GETTEXT, selIndex, (LPARAM)gameName);
+            int partyID = ExtractPartyID(std::string(gameName));
+
+            if (partyID <= 0) {
+                MessageBoxA(hwnd, "Party ID is undefined", "Nooooooooooooo", MB_OK | MB_ICONERROR);
+                return;
+            }
+
+            m_iSelectedPartyId = partyID;
+            delete[] gameName;
+        }
+    }
+}
+
+int GameServerGUI::ExtractPartyID(const std::string& partyString)
+{
+    size_t pos = partyString.find("Party ");
+    if (pos != std::string::npos) {
+        pos += 6;
+        size_t endPos = partyString.find(" |", pos);
+        std::string idStr = partyString.substr(pos, endPos - pos);
+        return std::stoi(idStr);
+    }
+    return -1;
 }
 
 LRESULT GameServerGUI::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -70,8 +108,7 @@ LRESULT GameServerGUI::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
                 if (ID > 0)
                 {
                     std::string log = "New party created : ";
-                    //logQueue.push(log);
-                    std::cout << log << ID << std::endl;  // Log dans la console
+                    std::cout << log << ID << std::endl;
                     UpdateListBox();
                 }
                 else
@@ -84,8 +121,35 @@ LRESULT GameServerGUI::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
         case ID_BUTTON_VIEW:
             MessageBoxA(hwnd, "Affichage des infos de partie...", "Info", MB_OK);
             break;
+        case ID_BUTTON_DELETE:
+        {
+            if (GameManager* manager = GameManager::GetInstance())
+            {
+                int result = MessageBoxA(hwnd, "Are you sure to delete this party?", "Are you ok?", MB_OKCANCEL);
+                if (result == IDOK)
+                {
+                    if (manager->RemovePartyByID(m_iSelectedPartyId) > 0)
+                    {
+                        std::string log = "Party deleted : ";
+                        std::cout << log << m_iSelectedPartyId << std::endl;
+                        m_iSelectedPartyId = 0;
+                        UpdateListBox();
+                    }
+                    else
+                        MessageBoxA(hwnd, "Select party before deletion.", "No no no..", MB_OK);
+                }
+            }
         }
         break;
+        case ID_LISTBOX:
+        {
+            if (HIWORD(wParam) == LBN_SELCHANGE)
+                OnListBoxSelection();
+        }
+        break;
+        }
+        break;
+
 
     case WM_TIMER:
     {
