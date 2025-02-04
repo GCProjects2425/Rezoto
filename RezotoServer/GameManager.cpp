@@ -13,3 +13,24 @@ int GameManager::CreateParty()
 
 	return it.GetID();
 }
+
+Party* GameManager::FindPartyByID(int searchID)
+{
+    for (Party& party : m_lParties) {
+        if (party.GetID() == searchID) {
+            return &party;
+        }
+    }
+    return nullptr;
+}
+
+int GameManager::RemovePartyByID(int searchID)
+{
+    for (PartyList::iterator it = m_lParties.begin(); it != m_lParties.end(); ++it) {
+        if (it->GetID() == searchID) {
+            m_lParties.erase(it);
+            return 1;
+        }
+    }
+    return -1;
+}

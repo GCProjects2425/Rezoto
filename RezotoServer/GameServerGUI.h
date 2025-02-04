@@ -2,7 +2,8 @@
 
 #define ID_BUTTON_CREATE 1
 #define ID_BUTTON_VIEW 2
-#define ID_LISTBOX 3
+#define ID_BUTTON_DELETE 3
+#define ID_LISTBOX 4
 
 class GameServerGUI {
 public:
@@ -18,6 +19,7 @@ private:
     HINSTANCE hInstance;
     HWND hwnd;
     HWND hwndListBox;
+    int m_iSelectedPartyId = 0;
 
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         GameServerGUI* self;
@@ -40,6 +42,10 @@ private:
     void CreateAppWindow();
     void MessageLoop();
     void UpdateListBox();
+    void OnListBoxSelection();
+
+    // Utils
+    int ExtractPartyID(const std::string& partyString);
 
     LRESULT HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
