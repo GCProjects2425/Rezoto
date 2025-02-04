@@ -1,8 +1,8 @@
 #include "Button.h"
 
-Button::Button(float x, float y, float widht, float height, std::function<void()> function)
+Button::Button(int x, int y, int widht, int height, std::function<void()> function)
 {
-	m_RectPos = new Rectangle { x, y, widht, height };
+	m_RectPos = new Rectangle { (float)x, (float)y, (float)widht, (float)height };
     m_Function = function;
 }
 
