@@ -1,4 +1,5 @@
 #include "ConnectionRoom.h"
+#include <regex>
 
 void ConnectionRoom::ComputeLogic(Pong* pong)
 {
@@ -14,11 +15,12 @@ void ConnectionRoom::ComputeLogic(Pong* pong)
         // Get char pressed (unicode character) on the queue
         int key = GetCharPressed();
 
+
         // Check if more characters have been pressed on the same frame
         while (key > 0)
         {
-            // NOTE: Only allow keys in range [32..125]
-            if ((key >= 32) && (key <= 125) && (letterCount < 10))
+            // NOTE: Only allow numbers and dot
+            if ((((key >= 48) && (key <= 57)) || key == 46) && (letterCount < 12))
             {
                 name[letterCount] = (char)key;
                 name[letterCount + 1] = '\0'; // Add null terminator at the end of the string.
@@ -28,6 +30,12 @@ void ConnectionRoom::ComputeLogic(Pong* pong)
             key = GetCharPressed();  // Check next character in the queue
         }
 
+        std::regex ipv4("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
+        std::string IP(name);
+
+        if (std::regex_match(IP, ipv4))
+        {
+        }
         if (IsKeyPressed(KEY_BACKSPACE))
         {
             letterCount--;
