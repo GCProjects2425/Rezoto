@@ -2,10 +2,11 @@
 
 #define ID_BUTTON_CREATE 1
 #define ID_BUTTON_VIEW 2
+#define ID_LISTBOX 3
 
 class GameServerGUI {
 public:
-    GameServerGUI(HINSTANCE hInstance) : hInstance(hInstance), hwnd(NULL), hwndLog(NULL) {}
+    GameServerGUI(HINSTANCE hInstance) : hInstance(hInstance), hwnd(NULL), hwndListBox(NULL) {}
 
     void Run() {
         RegisterWindowClass();
@@ -16,7 +17,7 @@ public:
 private:
     HINSTANCE hInstance;
     HWND hwnd;
-    HWND hwndLog;
+    HWND hwndListBox;
 
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         GameServerGUI* self;
@@ -38,6 +39,7 @@ private:
     void RegisterWindowClass();
     void CreateAppWindow();
     void MessageLoop();
+    void UpdateListBox();
 
     LRESULT HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };

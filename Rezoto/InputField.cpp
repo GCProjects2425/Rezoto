@@ -1,4 +1,5 @@
 #include "InputField.h"
+#include <regex>
 
 void InputField::Update()
 {
@@ -13,6 +14,13 @@ void InputField::Update()
 
         // Get char pressed (unicode character) on the queue
         int key = GetCharPressed();
+
+        std::regex ipv4("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
+        std::string IP(name);
+
+        if (std::regex_match(IP, ipv4))
+        {
+        }
 
         // Check if more characters have been pressed on the same frame
         while (key > 0)
