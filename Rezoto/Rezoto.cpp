@@ -1,6 +1,6 @@
 #include <iostream>
 #include "raylib.h"
-#include "pong.h"
+#include "GameClient.h"
 #include "PongScreen.h"
 #include "TitleScreen.h"
 #include "ConnectionRoom.h"
@@ -10,12 +10,12 @@ bool mouseOnText = false;
 
 int main(void)
 {
-    Pong* pong = new Pong();
-    pong->TitleScreen = new TitleScreen;
-    pong->PongScreen = new PongScreen;
-    pong->ConnectionRoom = new ConnectionRoom;
-    pong->SetScreen(pong->TitleScreen);
-    pong->InitializeElements();
+    GameClient* gameClient = new GameClient();
+    gameClient->TitleScreen = new TitleScreen;
+    gameClient->PongScreen = new PongScreen;
+    gameClient->ConnectionRoom = new ConnectionRoom;
+    gameClient->SetScreen(gameClient->TitleScreen);
+    gameClient->InitializeElements();
 
 
     //Remove the possibility to close with Escape
@@ -24,18 +24,18 @@ int main(void)
     // Main loop.
     while (!WindowShouldClose()) // Check ESC key.
     {
-        if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
+        /*if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
         else mouseOnText = false;
 
         if (mouseOnText)
             SetMouseCursor(MOUSE_CURSOR_IBEAM);
-        else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+        else SetMouseCursor(MOUSE_CURSOR_DEFAULT);*/
 
-        pong->CurrentScreen->ComputeLogic(pong);
+        gameClient->CurrentScreen->ComputeLogic(gameClient);
 
         // Rendering.
         BeginDrawing();
-        pong->CurrentScreen->Draw(pong);
+        gameClient->CurrentScreen->Draw(gameClient);
         EndDrawing();
 
     }

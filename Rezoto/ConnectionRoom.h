@@ -1,19 +1,19 @@
 #pragma once
 #include "GameScreen.h"
-#include "pong.h"
+#include "GameClient.h"
 #include "vector"
 #include "UiElement.h"
 #include "InputField.h"
 
 class ConnectionRoom :
-    public GameScreen
+	public GameScreen
 {
 public:
-    ConnectionRoom();
+	ConnectionRoom();
 
-    std::vector<UiElement*> UiElements;
-    void ComputeLogic(Pong* pong) override;
-    void Draw(Pong* pong) override;
-    void StartScreen(Pong* pong) override;
+	std::vector<UiElement*> UiElements;
+	void ComputeLogic(GameClient* gameClient) override;
+	void Draw(GameClient* gameClient) override;
+	void StartScreen(GameClient* gameClient) override;
 };
 

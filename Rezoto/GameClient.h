@@ -10,12 +10,12 @@
 // User-defined types.
 typedef enum Direction { UP = 0, DOWN } Direction;
 
-class Pong
+class GameClient
 {
 
 public:
 
-	Pong() {};
+	GameClient() {};
 
 	// Global variables. They are global indeed.
 	GameScreen* CurrentScreen;
@@ -41,6 +41,5 @@ public:
 	void Draw();
 
 	void ComputeGameplayScreen();
-
 };
 

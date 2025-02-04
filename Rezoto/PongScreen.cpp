@@ -1,32 +1,31 @@
 #include "PongScreen.h"
 
-void PongScreen::ComputeLogic(Pong* pong)
+void PongScreen::ComputeLogic(GameClient* gameClient)
 {
-
-    pong->MoveBall();
+    gameClient->MoveBall();
 
     // Check racket keys.
     if (IsKeyDown(KEY_Q))
-        pong->MoveRacket(&pong->leftRacket, UP);
+        gameClient->MoveRacket(&gameClient->leftRacket, UP);
     else if (IsKeyDown(KEY_A))
-        pong->MoveRacket(&pong->leftRacket, DOWN);
+        gameClient->MoveRacket(&gameClient->leftRacket, DOWN);
 
     if (IsKeyDown(KEY_I))
-        pong->MoveRacket(&pong->rightRacket, UP);
+        gameClient->MoveRacket(&gameClient->rightRacket, UP);
     else if (IsKeyDown(KEY_J))
-        pong->MoveRacket(&pong->rightRacket, DOWN);
+        gameClient->MoveRacket(&gameClient->rightRacket, DOWN);
 
 
     if (IsKeyPressed(KEY_ESCAPE))
-        pong->SetScreen(pong->TitleScreen);
+        gameClient->SetScreen(gameClient->TitleScreen);
 }
 
-void PongScreen::Draw(Pong* pong)
+void PongScreen::Draw(GameClient* gameClient)
 {
-    pong->Draw();
+    gameClient->Draw();
 }
 
-void PongScreen::StartScreen(Pong* pong)
+void PongScreen::StartScreen(GameClient* gameClient)
 {
-    pong->ResetGame();
+    gameClient->ResetGame();
 }

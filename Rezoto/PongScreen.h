@@ -1,11 +1,11 @@
 #pragma once
 #include "GameScreen.h"
-#include "pong.h"
+#include "GameClient.h"
 class PongScreen :
     public GameScreen
 {
-    void ComputeLogic(Pong* pong) override;
-    void Draw(Pong* pong) override;
-    void StartScreen(Pong* pong) override;
+    void ComputeLogic(GameClient* gameClient) override;
+    void Draw(GameClient* gameClient) override;
+    void StartScreen(GameClient* gameClient) override;
 };
 

@@ -1,6 +1,7 @@
-#include "pong.h"
+#include "GameClient.h"
 
-void Pong::InitializeElements(void)
+//CLIENT - (se lancera après la connexion + reception des infos par le serveur)
+void GameClient::InitializeElements(void)
 {
     InitWindow(800, 600, "Pong");
     // Calculate size, position and inner limits of window.
@@ -12,9 +13,8 @@ void Pong::InitializeElements(void)
     ResetGame();
 }
 
-// Manage ball movement.
-// ---------------------
-void Pong::MoveBall(void)
+//SERVER COMPUTE - TRANSFERT
+void GameClient::MoveBall(void)
 {
     static int xx = CALIBER / 2;
     static int yy = CALIBER / 2;
@@ -46,9 +46,8 @@ void Pong::MoveBall(void)
     ball.y += yy;
 }
 
-// Manage racket movement.
-// -----------------------
-void Pong::MoveRacket(Rectangle* pRacket, Direction pDir)
+//SERVER COMPUTE - TRANSFERT
+void GameClient::MoveRacket(Rectangle* pRacket, Direction pDir)
 {
     int step = (pDir == UP) ? -CALIBER / 2 : CALIBER / 2;
 
@@ -58,7 +57,8 @@ void Pong::MoveRacket(Rectangle* pRacket, Direction pDir)
     pRacket->y += step;
 }
 
-void Pong::ComputeGameplay()
+//CLIENT - MODIFIER POUR CLIENT SOLO (contrôle up/down sans connaissance du côté contrôlé -> server attribue le contrôle dans le compute)
+void GameClient::ComputeGameplay()
 {
     MoveBall();
 
@@ -72,11 +72,10 @@ void Pong::ComputeGameplay()
         MoveRacket(&rightRacket, Direction::UP);
     else if (IsKeyDown(KEY_J))
         MoveRacket(&rightRacket, Direction::DOWN);
-
-
 }
 
-void Pong::Draw()
+//CLIENT
+void GameClient::Draw()
 {
     // Draw court.
     DrawRectangle(screen.x, screen.y, screen.width, screen.height, GRAY);
@@ -93,32 +92,15 @@ void Pong::Draw()
     DrawRectangle(rightRacket.x, rightRacket.y, rightRacket.width, rightRacket.height, WHITE);
 }
 
-void Pong::ComputeGameplayScreen()
-{
-    // Draw court.
-    DrawRectangle(screen.x, screen.y, screen.width, screen.height, GRAY);
-    DrawRectangle(screen.x, playableBorder.y, screen.width, playableBorder.height, BLACK);
-    DrawRectangle((screen.width / 2) - 5, playableBorder.y, CALIBER, playableBorder.height, GRAY);
-    // Draw score.
-    DrawText(std::to_string(leftScore).c_str(), (screen.width / 2) - 50 - scoreWidth, 50, 60, GRAY);
-    DrawText(std::to_string(rightScore).c_str(), (screen.width / 2) + 50, 50, 60, GRAY);
-
-    // Draw ball.
-    DrawRectangle(ball.x, ball.y, ball.width, ball.height, WHITE);
-    // Draw rackets.
-    DrawRectangle(leftRacket.x, leftRacket.y, leftRacket.width, leftRacket.height, WHITE);
-    DrawRectangle(rightRacket.x, rightRacket.y, rightRacket.width, rightRacket.height, WHITE);
-}
-
-// Serve ball after scoring.
-// -------------------------
-void Pong::ServeBall(void)
+//SERVER COMPUTE - TRANSFERT
+void GameClient::ServeBall(void)
 {
     ball.x = playableBorder.width / 2;
     ball.y = GetRandomValue(playableBorder.y + 10, playableBorder.height);
 }
 
-void Pong::SetScreen(GameScreen* screen)
+//CLIENT
+void GameClient::SetScreen(GameScreen* screen)
 {
     if (screen != CurrentScreen) {
         CurrentScreen = screen;
@@ -126,7 +108,8 @@ void Pong::SetScreen(GameScreen* screen)
     }
 }
 
-void Pong::ResetGame(void)
+//SERVER COMPUTE - TRANSFERT
+void GameClient::ResetGame(void)
 {
     // Initialize elements.
     ball = { 5 * CALIBER, playableBorder.height, CALIBER, CALIBER };
@@ -135,7 +118,8 @@ void Pong::ResetGame(void)
     scoreWidth = MeasureText("00", 60);
 }
 
-void Pong::CheckScore()
+//SERVER
+void GameClient::CheckScore()
 {
     if ((leftScore >= 11) || (rightScore >= 11))
     {

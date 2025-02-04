@@ -1,13 +1,13 @@
 #pragma once
 #include "raylib.h"
-class Pong; 
+class GameClient;
 
 class GameScreen
 {
 public:
 
-	virtual void ComputeLogic(Pong* pong) = 0;
-	virtual void Draw(Pong* pong) = 0;
-	virtual void StartScreen(Pong* pong) = 0;
+	virtual void ComputeLogic(GameClient* gameClient) = 0;
+	virtual void Draw(GameClient* gameClient) = 0;
+	virtual void StartScreen(GameClient* gameClient) = 0;
 };
 

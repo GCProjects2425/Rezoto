@@ -139,7 +139,7 @@
     <ClCompile Include="ConnectionRoom.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="InputField.cpp" />
-    <ClCompile Include="pong.cpp" />
+    <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="PongScreen.cpp" />
     <ClCompile Include="Rezoto.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
@@ -150,7 +150,7 @@
     <ClInclude Include="ConnectionRoom.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="InputField.h" />
-    <ClInclude Include="pong.h" />
+    <ClInclude Include="GameClient.h" />
     <ClInclude Include="PongScreen.h" />
     <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="UiElement.h" />

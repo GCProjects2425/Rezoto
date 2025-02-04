@@ -1,13 +1,13 @@
 #include "TitleScreen.h"
 
-void TitleScreen::ComputeLogic(Pong* pong)
+void TitleScreen::ComputeLogic(GameClient* gameClient)
 {
 	if (IsKeyPressed(KEY_ENTER)) 
-		pong->SetScreen(pong->ConnectionRoom);
-	pong->ResetGame();
+		gameClient->SetScreen(gameClient->ConnectionRoom);
+	gameClient->ResetGame();
 }
 
-void TitleScreen::Draw(Pong* pong)
+void TitleScreen::Draw(GameClient* gameClient)
 {
 	ClearBackground(BLACK);
 	DrawText("PONG", 120, 20, 120, GRAY);
@@ -19,7 +19,7 @@ void TitleScreen::Draw(Pong* pong)
 	DrawText("Press ESCAPE to QUIT", 120, 480, 20, GRAY);
 }
 
-void TitleScreen::StartScreen(Pong* pong)
+void TitleScreen::StartScreen(GameClient* gameClient)
 {
 
 }

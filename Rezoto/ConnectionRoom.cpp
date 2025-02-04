@@ -7,20 +7,22 @@ ConnectionRoom::ConnectionRoom()
     textfield->SetLabelText("gigigougou");
 }
 
-void ConnectionRoom::ComputeLogic(Pong* pong)
+void ConnectionRoom::ComputeLogic(GameClient* gameClient)
 {
-    for (auto& element : UiElements) {
+    for (auto& element : UiElements) 
+    {
         element->Update();
     }
 }
 
-void ConnectionRoom::Draw(Pong* pong)
+void ConnectionRoom::Draw(GameClient* gameClient)
 {
-    for (auto& element : UiElements) {
+    for (auto& element : UiElements) 
+    {
         element->Draw();
     }
 }
 
-void ConnectionRoom::StartScreen(Pong* pong)
+void ConnectionRoom::StartScreen(GameClient* gameClient)
 {
 }
