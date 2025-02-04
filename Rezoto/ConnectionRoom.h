@@ -4,6 +4,7 @@
 #include "vector"
 #include "UiElement.h"
 #include "InputField.h"
+#include "Button.h"
 
 class ConnectionRoom :
 	public GameScreen
@@ -15,5 +16,7 @@ public:
 	void ComputeLogic(GameClient* gameClient) override;
 	void Draw(GameClient* gameClient) override;
 	void StartScreen(GameClient* gameClient) override;
+
+	void Test();
 };
 
