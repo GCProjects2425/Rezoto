@@ -1,15 +1,18 @@
 #include <iostream>
-#include "raylib.h"
+#include <functional>
+
 #include "GameClient.h"
 #include "PongScreen.h"
 #include "TitleScreen.h"
 #include "ConnectionRoom.h"
-
-Rectangle textBox = { 800 / 2.0f - 100, 180, 225, 50 };
-bool mouseOnText = false;
+//#include "UDPClient.h"
 
 int main(void)
 {
+    // Network thread
+    //UDPClient udpServer;
+    //std::thread networkThread(std::bind(&UDPClient::Run, &udpServer));
+
     GameClient* gameClient = new GameClient();
     gameClient->TitleScreen = new TitleScreen;
     gameClient->PongScreen = new PongScreen;
@@ -20,6 +23,7 @@ int main(void)
 
     //Remove the possibility to close with Escape
     SetExitKey(KEY_NULL);
+
 
     // Main loop.
     while (!WindowShouldClose()) // Check ESC key.
