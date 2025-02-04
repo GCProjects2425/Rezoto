@@ -7,7 +7,7 @@ class ConnectionRoom :
 public:
     Rectangle textBox = { 800 / 2.0f - 100, 180, 225, 50 };
     bool mouseOnText = false;
-    char name[10 + 1] = "\0";      // NOTE: One extra space required for null terminator char '\0'
+    char name[12 + 1] = "\0";      // NOTE: One extra space required for null terminator char '\0'
     int letterCount = 0;
 
     int framesCounter = 0;
