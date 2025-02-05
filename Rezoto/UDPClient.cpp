@@ -58,6 +58,7 @@ void UDPClient::Run()
             break;
         }
 
+
         answer[answer_length] = '\0'; // Assure que le message est bien terminé
         std::cout << "Server: " << answer << "\n";
     }
