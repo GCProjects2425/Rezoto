@@ -3,9 +3,16 @@
 
 ConnectionRoom::ConnectionRoom()
 {
-    auto textfield = new InputField();
-	UiElements.push_back(textfield);
-    textfield->SetLabelText("gigigougou");
+    auto UserName = new InputField();
+	UiElements.push_back(UserName);
+    UserName->SetLabelText("UserName");
+    UserName->SetInputFieldType(All);
+
+    auto IP = new InputField();
+    UiElements.push_back(IP);
+    IP->SetLabelText("IP");
+    IP->SetPosition(IP->textBox.x, 300);
+    
 
     Button* JoinButton = new Button(0.0f, 0.0f, 100.0f, 100.0f, std::bind(&ConnectionRoom::Test, this));
     UiElements.push_back(JoinButton);

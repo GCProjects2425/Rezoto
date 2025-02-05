@@ -25,8 +25,13 @@ void InputField::Update()
         // Check if more characters have been pressed on the same frame
         while (key > 0)
         {
+            bool condition;
+            if (type == Number)
+                condition = (((key >= 48) && (key <= 57)) || key == 46) && (letterCount < 12);
+            if (type == All)
+                condition = (key >= 32) && (key <= 125) && (letterCount < 10);
             // NOTE: Only allow keys in range [32..125]
-            if ((((key >= 48) && (key <= 57)) || key == 46) && (letterCount < 12))
+            if (condition)
             {
                 name[letterCount] = (char)key;
                 name[letterCount + 1] = '\0'; // Add null terminator at the end of the string.
@@ -77,4 +82,9 @@ void InputField::SetPosition(int x, int y)
 void InputField::SetLabelText(std::string text)
 {
     labelText = text;
+}
+
+void InputField::SetInputFieldType(InputFieldType type)
+{
+    InputField::type = type;
 }
