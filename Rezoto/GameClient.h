@@ -29,8 +29,8 @@ public:
 	TitleScreen* TitleScreen;
 	ConnectionRoom* ConnectionRoom;
 
-	LeRectangle screen, playableBorder, top, bottom, ball, leftRacket, rightRacket;
-	int rightScore, leftScore, scoreWidth, winner;
+	LeRectangle m_Screen, m_PlayableBorder, m_Ball, m_LeftRacket, m_RightRacket;
+	int m_iRightScore, m_iLeftScore, m_iScoreWidth, m_iWinner;
 
 	// Prototypes.
 	void InitializeElements();
@@ -42,7 +42,7 @@ public:
 
 	void MoveBall();
 	void MoveRacket(LeRectangle* pRacket, Direction pDir); 
-	void ComputeGameplay();
+	void SendInput();
 	void Draw();
 
 	int Run();
