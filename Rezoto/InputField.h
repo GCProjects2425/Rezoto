@@ -1,5 +1,5 @@
 #pragma once
-#include "UiElement.h"s
+#include "UiElement.h"
 
 enum InputFieldType {
     Number,
@@ -24,7 +24,7 @@ public:
     void Draw() override;
     void SetPosition(int x, int y) override; 
     void SetLabelText(std::string text) override;
-    void SetInputType(InputFieldType newType;)
+    void SetInputType(InputFieldType newType);
 };
 
 
