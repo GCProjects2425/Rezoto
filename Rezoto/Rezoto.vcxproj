@@ -141,6 +141,7 @@
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="InputField.cpp" />
     <ClCompile Include="GameClient.cpp" />
+    <ClCompile Include="Message.cpp" />
     <ClCompile Include="PongScreen.cpp" />
     <ClCompile Include="Rezoto.cpp" />
     <ClCompile Include="Singleton.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="InputField.h" />
     <ClInclude Include="GameClient.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="PongScreen.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TitleScreen.h" />

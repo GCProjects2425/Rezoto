@@ -3,13 +3,11 @@
 #include <functional>
 #include "UIManager.h"
 
-class Rectangle;
-
 class Button :
     public UiElement
 {
     std::function<void()> m_Function;
-    Rectangle* m_RectPos;
+    LeRectangle m_RectPos;
     std::string m_sLabelText;
     UIManager* m_UIManager;
 

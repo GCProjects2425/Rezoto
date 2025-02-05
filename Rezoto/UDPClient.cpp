@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#define BUFLEN 512  // max length of answer
+#define BUFLEN 0xFFFF - 0xFF  // max length of answer - header datas
 #define SERVER "127.0.0.1"
 #define PORT 8888
 
