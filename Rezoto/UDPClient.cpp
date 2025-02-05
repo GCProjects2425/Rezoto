@@ -53,11 +53,11 @@ void UDPClient::Run()
         if (true) {
             // Envoi d'un message au serveur
             const char* message = "Hello from client!";
-            //if (sendto(client_socket, message, strlen(message), 0, (sockaddr*)&server, sizeof(sockaddr_in)) == SOCKET_ERROR) {
-            //    std::cout << "sendto() failed with error code: " << WSAGetLastError() << "\n";
-            //    continue;
-            //}
-            //std::cout << "Message sent to server: " << message << "\n";
+            if (sendto(client_socket, message, strlen(message), 0, (sockaddr*)&server, sizeof(sockaddr_in)) == SOCKET_ERROR) {
+                std::cout << "sendto() failed with error code: " << WSAGetLastError() << "\n";
+                continue;
+            }
+            std::cout << "Message sent to server: " << message << "\n";
 
             // Réception de la réponse du serveur
             int message_len;
