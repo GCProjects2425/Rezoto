@@ -4,14 +4,14 @@
 
 InputField::InputField(int x, int y, int widht, int height)
 {
-    m_RectPos = new Rectangle{ (float)x, (float)y, (float)widht, (float)height};
+    m_RectPos = new LeRectangle{ (float)x, (float)y, (float)widht, (float)height};
     m_UIManager = UIManager::GetInstance();
 }
 
 void InputField::Update()
 {
     //----------------------------------------------------------------------------------
-    if (CheckCollisionPointRec(GetMousePosition(), *m_RectPos.ToRectangle())) m_bMouseOnText = true;
+    if (CheckCollisionPointRec(GetMousePosition(), m_RectPos->ToRectangle())) m_bMouseOnText = true;
     else m_bMouseOnText = false;
 
     if (m_bMouseOnText)
@@ -34,9 +34,9 @@ void InputField::Update()
         {
             bool condition;
             if (type == Number)
-                condition = (((key >= 48) && (key <= 57)) || key == 46) && (letterCount < 12);
+                condition = (((key >= 48) && (key <= 57)) || key == 46) && (m_iLetterCount < 12);
             if (type == All)
-                condition = (key >= 32) && (key <= 125) && (letterCount < 10);
+                condition = (key >= 32) && (key <= 125) && (m_iLetterCount < 10);
             // NOTE: Only allow keys in range [32..125]
             if (condition)
             {
@@ -62,7 +62,7 @@ void InputField::Draw()
 {
     ClearBackground(BLACK);
 
-    DrawRectangleRec(*m_RectPos.ToRectangle(), LIGHTGRAY);
+    DrawRectangleRec(m_RectPos->ToRectangle(), LIGHTGRAY);
     if (m_bMouseOnText) DrawRectangleLines((int)m_RectPos->x, (int)m_RectPos->y, (int)m_RectPos->width, (int)m_RectPos->height, RED);
     else DrawRectangleLines((int)m_RectPos->x, (int)m_RectPos->y, (int)m_RectPos->width, (int)m_RectPos->height, DARKGRAY);
 

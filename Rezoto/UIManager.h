@@ -1,6 +1,6 @@
 #pragma once
 #include "Singleton.h"
-#include <raylib.h>
+#include "CustomStruct.h"
 
 class UIManager final : public Singleton<UIManager>
 {
@@ -11,7 +11,7 @@ public:
 	int m_iScreenHeight = 600;
 
 	int m_iFramesCounter = 0;
-	Vector2 m_iMousePosition;
+	LeVector2 m_iMousePosition;
 
 	void Update();
 };

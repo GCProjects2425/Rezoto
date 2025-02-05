@@ -12,7 +12,7 @@ Button::Button(int x, int y, int widht, int height, std::function<void()> functi
 void Button::Update()
 {
     // Check button state
-    if (CheckCollisionPointRec(m_UIManager->m_iMousePosition, *m_RectPos) && IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(m_UIManager->m_iMousePosition.ToVector2(), *m_RectPos) && IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
     {
         m_Function();
     }
