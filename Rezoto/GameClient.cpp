@@ -12,7 +12,7 @@ GameClient::GameClient()
 //CLIENT - (se lancera après la connexion + reception des infos par le serveur)
 void GameClient::InitializeElements(void)
 {
-    InitWindow(800, 600, "Pong");
+    InitWindow(800 , 600, "Pong");
     // Calculate size, position and inner limits of window.
     screen = { 0, 0, (float)GetScreenWidth() , (float)GetScreenHeight()  };
     playableBorder = { CALIBER, CALIBER, screen.width - (2 * CALIBER) , screen.height - (2 * CALIBER) };

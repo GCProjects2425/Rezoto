@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string>
 #include "GameScreen.h"
+#include "UIManager.h"
 #include "Singleton.h"
 
 #include "PongScreen.h"

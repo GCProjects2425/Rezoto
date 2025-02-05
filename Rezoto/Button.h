@@ -1,6 +1,7 @@
 #pragma once
 #include "UiElement.h"
 #include <functional>
+#include "UIManager.h"
 
 class Rectangle;
 
@@ -8,12 +9,12 @@ class Button :
     public UiElement
 {
     std::function<void()> m_Function;
-    std::string m_sLabelText;
-public :
-    Button(float x, float y, float widht, float height, std::function<void()> function);
-
-    int btnState = 0;               // Button state: 0-NORMAL, 1-MOUSE_HOVER, 2-PRESSED
     Rectangle* m_RectPos;
+    std::string m_sLabelText;
+    UIManager* m_UIManager;
+
+public :
+    Button(int x, int y, int widht, int height, std::function<void()> function);
 
     void Update() override;
     void Draw() override;

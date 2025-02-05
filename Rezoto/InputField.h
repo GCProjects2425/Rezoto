@@ -1,24 +1,25 @@
 #pragma once
 #include "UiElement.h"
+#include "UIManager.h"
 
 enum InputFieldType {
     Number,
     All
 };
 
-class InputField :
-    public UiElement
+class InputField : public UiElement
 {
+    LeRectangle* m_RectPos;
+    std::string m_sLabelText;
+    int m_iLetterCount = 0;
+    InputFieldType type = Number;
+    UIManager* m_UIManager;
+    bool m_bMouseOnText = false;
+
 public:
 
-    LeRectangle textBox = { 800 / 2.0f - 100, 180, 225, 50 };
-    std::string labelText;
-    bool mouseOnText = false;
-    char name[12 + 1] = "\0";      // NOTE: One extra space required for null terminator char '\0'
-    int letterCount = 0;
-    InputFieldType type = Number;
-
-    int framesCounter = 0;
+    InputField(int x, int y, int widht, int height);
+    char m_cContent[12 + 1] = "\0";      // NOTE: One extra space required for null terminator char '\0'
 
     void Update() override;
     void Draw() override;
