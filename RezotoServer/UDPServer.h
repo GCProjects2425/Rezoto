@@ -18,6 +18,8 @@ public:
     ~UDPServer();
 
     void Start();
+    void SendMessageToSelf(const std::string& message);
+
 
 private:
     WSADATA wsa{};
