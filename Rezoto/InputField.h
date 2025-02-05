@@ -1,5 +1,10 @@
 #pragma once
-#include "UiElement.h"
+#include "UiElement.h"s
+
+enum InputFieldType {
+    Number,
+    All
+};
 
 class InputField :
     public UiElement
@@ -11,6 +16,7 @@ public:
     bool mouseOnText = false;
     char name[12 + 1] = "\0";      // NOTE: One extra space required for null terminator char '\0'
     int letterCount = 0;
+    InputFieldType type = Number;
 
     int framesCounter = 0;
 
@@ -18,5 +24,7 @@ public:
     void Draw() override;
     void SetPosition(int x, int y) override; 
     void SetLabelText(std::string text) override;
+    void SetInputType(InputFieldType newType;)
 };
+
 
