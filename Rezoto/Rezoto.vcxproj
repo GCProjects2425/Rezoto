@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ConnectionRoom.cpp" />
+    <ClCompile Include="CustomStruct.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="InputField.cpp" />
     <ClCompile Include="GameClient.cpp" />
@@ -146,10 +147,12 @@
     <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="UDPClient.cpp" />
     <ClCompile Include="UiElement.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="ConnectionRoom.h" />
+    <ClInclude Include="CustomStruct.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="InputField.h" />
     <ClInclude Include="GameClient.h" />
@@ -158,6 +161,7 @@
     <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="UDPClient.h" />
     <ClInclude Include="UiElement.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

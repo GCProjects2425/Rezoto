@@ -4,16 +4,19 @@
 
 ConnectionRoom::ConnectionRoom()
 {
-    auto textfield = new InputField();
+    m_UIManager = UIManager::GetInstance();
+
+    auto textfield = new InputField(800 / 2.0f - 100, 180, 225, 50);
 	UiElements.push_back(textfield);
     textfield->SetLabelText("gigigougou");
 
-    Button* JoinButton = new Button(0.0f, 0.0f, 100.0f, 100.0f, std::bind(&ConnectionRoom::Test, this));
+    Button* JoinButton = new Button(0, 0, 100, 100, std::bind(&ConnectionRoom::Test, this));
     UiElements.push_back(JoinButton);
 }
 
 void ConnectionRoom::ComputeLogic(GameClient* gameClient)
 {
+    m_UIManager->Update();
     for (auto& element : UiElements) 
     {
         element->Update();
