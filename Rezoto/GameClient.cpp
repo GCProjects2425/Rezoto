@@ -1,5 +1,14 @@
 #include "GameClient.h"
 
+#include <raylib.h>
+
+GameClient::GameClient()
+{
+    PongScreen = new class PongScreen;
+    TitleScreen = new class TitleScreen;
+	ConnectionRoom = new class ConnectionRoom;
+}
+
 //CLIENT - (se lancera après la connexion + reception des infos par le serveur)
 void GameClient::InitializeElements(void)
 {
@@ -20,11 +29,11 @@ void GameClient::MoveBall(void)
     static int yy = CALIBER / 2;
 
     // Check collision with rackets and ball has not surpassed rackets.
-    if ((CheckCollisionRecs(ball, leftRacket) && ball.x < leftRacket.x + leftRacket.width) ||
-        (CheckCollisionRecs(ball, rightRacket) && ball.x > rightRacket.x - rightRacket.width))
+    if ((CheckCollisionRecs(ball.ToRectangle(), leftRacket.ToRectangle()) && ball.x < leftRacket.x + leftRacket.width) ||
+        (CheckCollisionRecs(ball.ToRectangle(), rightRacket.ToRectangle()) && ball.x > rightRacket.x - rightRacket.width))
         xx = -xx;
     else
-        if (CheckCollisionRecs(ball, top) || CheckCollisionRecs(ball, bottom))
+        if (CheckCollisionRecs(ball.ToRectangle(), top.ToRectangle()) || CheckCollisionRecs(ball.ToRectangle(), bottom.ToRectangle()))
             yy = -yy;
         else
         {
@@ -47,12 +56,12 @@ void GameClient::MoveBall(void)
 }
 
 //SERVER COMPUTE - TRANSFERT
-void GameClient::MoveRacket(Rectangle* pRacket, Direction pDir)
+void GameClient::MoveRacket(LeRectangle* pRacket, Direction pDir)
 {
     int step = (pDir == UP) ? -CALIBER / 2 : CALIBER / 2;
 
-    if ((CheckCollisionRecs(top, *pRacket) && pDir == UP) ||
-        (CheckCollisionRecs(bottom, *pRacket) && pDir == DOWN))
+    if ((CheckCollisionRecs(top.ToRectangle(), pRacket->ToRectangle()) && pDir == UP) ||
+        (CheckCollisionRecs(bottom.ToRectangle(), pRacket->ToRectangle()) && pDir == DOWN))
         return;
     pRacket->y += step;
 }
@@ -90,6 +99,39 @@ void GameClient::Draw()
     // Draw rackets.
     DrawRectangle(leftRacket.x, leftRacket.y, leftRacket.width, leftRacket.height, WHITE);
     DrawRectangle(rightRacket.x, rightRacket.y, rightRacket.width, rightRacket.height, WHITE);
+}
+
+int GameClient::Run()
+{
+    SetScreen(TitleScreen);
+    InitializeElements();
+
+
+    //Remove the possibility to close with Escape
+    SetExitKey(KEY_NULL);
+
+
+    // Main loop.
+    while (!WindowShouldClose()) // Check ESC key.
+    {
+        /*if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
+        else mouseOnText = false;
+
+        if (mouseOnText)
+            SetMouseCursor(MOUSE_CURSOR_IBEAM);
+        else SetMouseCursor(MOUSE_CURSOR_DEFAULT);*/
+
+        CurrentScreen->ComputeLogic(this);
+
+        // Rendering.
+        BeginDrawing();
+        CurrentScreen->Draw(this);
+        EndDrawing();
+
+    }
+
+    CloseWindow();
+    return 0;
 }
 
 //SERVER COMPUTE - TRANSFERT

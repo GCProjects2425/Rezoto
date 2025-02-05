@@ -1,5 +1,7 @@
 #include "Button.h"
 
+#include <raylib.h>
+
 Button::Button(float x, float y, float widht, float height, std::function<void()> function)
 {
 	m_RectPos = new Rectangle { x, y, widht, height };

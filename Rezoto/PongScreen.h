@@ -1,6 +1,6 @@
 #pragma once
 #include "GameScreen.h"
-#include "GameClient.h"
+
 class PongScreen :
     public GameScreen
 {
