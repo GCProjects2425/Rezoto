@@ -1,5 +1,9 @@
 #include "TitleScreen.h"
 
+#include "GameClient.h"
+
+#include <raylib.h>
+
 void TitleScreen::ComputeLogic(GameClient* gameClient)
 {
 	if (IsKeyPressed(KEY_ENTER)) 

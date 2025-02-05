@@ -1,10 +1,13 @@
 #include "InputField.h"
 #include <regex>
 
+#include <raylib.h>
+
+
 void InputField::Update()
 {
     //----------------------------------------------------------------------------------
-    if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
+    if (CheckCollisionPointRec(GetMousePosition(), textBox.ToRectangle())) mouseOnText = true;
     else mouseOnText = false;
 
     if (mouseOnText)
@@ -50,7 +53,7 @@ void InputField::Draw()
 {
     ClearBackground(BLACK);
 
-    DrawRectangleRec(textBox, LIGHTGRAY);
+    DrawRectangleRec(textBox.ToRectangle(), LIGHTGRAY);
     if (mouseOnText) DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, RED);
     else DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, DARKGRAY);
 

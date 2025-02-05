@@ -1,6 +1,5 @@
 #pragma once
 #include "GameScreen.h"
-#include "GameClient.h"
 #include "vector"
 #include "UiElement.h"
 #include "InputField.h"

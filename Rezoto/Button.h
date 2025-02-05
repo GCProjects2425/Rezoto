@@ -2,6 +2,8 @@
 #include "UiElement.h"
 #include <functional>
 
+class Rectangle;
+
 class Button :
     public UiElement
 {

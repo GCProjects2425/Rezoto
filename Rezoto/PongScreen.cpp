@@ -1,5 +1,9 @@
 #include "PongScreen.h"
 
+#include "GameClient.h"
+
+#include <raylib.h>
+
 void PongScreen::ComputeLogic(GameClient* gameClient)
 {
     gameClient->MoveBall();
