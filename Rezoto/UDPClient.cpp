@@ -21,6 +21,9 @@ UDPClient::UDPClient()
         exit(EXIT_FAILURE);
     }
 
+    u_long mode = 1;  // 1 = non-bloquant, 0 = bloquant
+    ioctlsocket(client_socket, FIONBIO, &mode);
+
     memset((char*)&server, 0, sizeof(server));
 }
 
@@ -36,30 +39,41 @@ void UDPClient::Connect(std::string ip, int port)
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
     server.sin_addr.S_un.S_addr = inet_addr(ip.c_str());
+    if (connect(client_socket, (sockaddr*)&server, sizeof(sockaddr_in)) == SOCKET_ERROR)
+    {
+        std::cout << "connect() failed with error code: " << WSAGetLastError() << "\n";
+        exit(EXIT_FAILURE);
+    }
     m_isConnected = true;
 }
 
 void UDPClient::Run()
 {
-    Connect(SERVER, PORT);
-
     char answer[BUFLEN] = {};
-    sockaddr_in server;
     int slen = sizeof(sockaddr_in);
 
     while (true) {
-        int answer_length = recvfrom(client_socket, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
-        if (answer_length == SOCKET_ERROR) {
-            int errorCode = WSAGetLastError();
-            if (errorCode == WSAEWOULDBLOCK) {
-                continue; // Pas de données, on continue à écouter
+        if (m_isConnected)
+        {
+			const char* message = "Hello from client!";
+            if (sendto(client_socket, message, strlen(message), 0, (sockaddr*)&server, sizeof(sockaddr_in)) == SOCKET_ERROR) {
+                std::cout << "sendto() failed with error code: " << WSAGetLastError() << "\n";
+                exit(EXIT_FAILURE);
             }
-            std::cout << "recvfrom() failed with error code: " << errorCode << "\n";
-            break;
+
+            int answer_length = recvfrom(client_socket, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
+            if (answer_length == SOCKET_ERROR) {
+                int errorCode = WSAGetLastError();
+                if (errorCode == WSAEWOULDBLOCK) {
+                    continue; // Pas de données, on continue à écouter
+                }
+                std::cout << "recvfrom() failed with error code: " << errorCode << "\n";
+                break;
+            }
+
+
+            answer[answer_length] = '\0'; // Assure que le message est bien terminé
+            std::cout << "Server: " << answer << "\n";
         }
-
-
-        answer[answer_length] = '\0'; // Assure que le message est bien terminé
-        std::cout << "Server: " << answer << "\n";
     }
 }

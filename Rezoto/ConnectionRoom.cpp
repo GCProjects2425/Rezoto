@@ -1,4 +1,5 @@
 #include "ConnectionRoom.h"
+#include "UDPClient.h"
 #include <iostream>
 
 ConnectionRoom::ConnectionRoom()
@@ -33,5 +34,6 @@ void ConnectionRoom::StartScreen(GameClient* gameClient)
 
 void ConnectionRoom::Test()
 {
+    UDPClient::GetInstance()->Connect("10.1.40.125", 8888);
     std::cout << "button pressed" << std::endl;
 }

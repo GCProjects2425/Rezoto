@@ -10,5 +10,11 @@ int main(void)
     std::thread networkThread(std::bind(&UDPClient::Run, UDPClient::GetInstance()));
     SetThreadDescription((HANDLE)networkThread.native_handle(), L"NetworkThread");
 
-    return GameClient::GetInstance()->Run();
+	std::thread gameThread(std::bind(&GameClient::Run, GameClient::GetInstance()));
+    SetThreadDescription((HANDLE)gameThread.native_handle(), L"GameThread");
+
+	gameThread.join();
+	networkThread.join();
+
+    return 0;
 }
