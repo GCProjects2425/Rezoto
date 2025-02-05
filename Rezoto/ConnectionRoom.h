@@ -9,6 +9,7 @@
 class ConnectionRoom :
 	public GameScreen
 {
+	UIManager* m_UIManager;
 public:
 	ConnectionRoom();
 

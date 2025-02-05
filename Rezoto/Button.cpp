@@ -4,17 +4,15 @@ Button::Button(int x, int y, int widht, int height, std::function<void()> functi
 {
 	m_RectPos = new Rectangle { (float)x, (float)y, (float)widht, (float)height };
     m_Function = function;
+    m_UIManager = UIManager::GetInstance();
 }
 
 void Button::Update()
 {
     // Check button state
-    if (CheckCollisionPointRec(GetMousePosition(), *m_RectPos))
+    if (CheckCollisionPointRec(m_UIManager->m_iMousePosition, *m_RectPos) && IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
     {
-        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) btnState = 2;
-        else btnState = 1;
-
-        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) m_Function();
+        m_Function();
     }
 }
 

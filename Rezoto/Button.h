@@ -1,13 +1,14 @@
 #pragma once
 #include "UiElement.h"
 #include <functional>
+#include "UIManager.h"
 
 class Button : public UiElement
 {
     std::function<void()> m_Function;
     Rectangle* m_RectPos;
     std::string m_sLabelText;
-    int btnState = 0;               // Button state: 0-NORMAL, 1-MOUSE_HOVER, 2-PRESSED
+    UIManager* m_UIManager;
 
 public :
     Button(int x, int y, int widht, int height, std::function<void()> function);

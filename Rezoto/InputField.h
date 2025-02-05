@@ -1,5 +1,6 @@
 #pragma once
 #include "UiElement.h"
+#include "UIManager.h"
 
 class InputField : public UiElement
 {
@@ -11,7 +12,7 @@ class InputField : public UiElement
 public:
 
     InputField(int x, int y, int widht, int height);
-    int m_iFramesCounter = 0;
+    UIManager* m_UIManager;
     char m_cContent[12 + 1] = "\0";      // NOTE: One extra space required for null terminator char '\0'
 
     void Update() override;

@@ -4,6 +4,7 @@
 InputField::InputField(int x, int y, int widht, int height)
 {
     m_RectPos = new Rectangle{ (float)x, (float)y, (float)widht, (float)height};
+    m_UIManager = UIManager::GetInstance();
 }
 
 void InputField::Update()
@@ -67,7 +68,7 @@ void InputField::Draw()
         if (m_iLetterCount < 12)
         {
             // Draw blinking underscore char
-            if (((m_iFramesCounter / 20) % 2) == 0) DrawText("_", (int)m_RectPos->x + 8 + MeasureText(m_cContent, 40), (int)m_RectPos->y + 12, 40, MAROON);
+            if (((m_UIManager->m_iFramesCounter / 20) % 2) == 0) DrawText("_", (int)m_RectPos->x + 8 + MeasureText(m_cContent, 40), (int)m_RectPos->y + 12, 40, MAROON);
         }
         else DrawText("Press BACKSPACE to delete chars...", m_RectPos->x + (m_RectPos->width / 2) - MeasureText("Press BACKSPACE to delete chars...", 20) / 2, m_RectPos->y + m_RectPos->height, 20, GRAY);
     }

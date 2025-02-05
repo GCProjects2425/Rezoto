@@ -3,6 +3,8 @@
 
 ConnectionRoom::ConnectionRoom()
 {
+    m_UIManager = UIManager::GetInstance();
+
     auto textfield = new InputField(800 / 2.0f - 100, 180, 225, 50);
 	UiElements.push_back(textfield);
     textfield->SetLabelText("gigigougou");
@@ -13,6 +15,7 @@ ConnectionRoom::ConnectionRoom()
 
 void ConnectionRoom::ComputeLogic(GameClient* gameClient)
 {
+    m_UIManager->Update();
     for (auto& element : UiElements) 
     {
         element->Update();
