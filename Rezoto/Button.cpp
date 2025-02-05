@@ -1,8 +1,10 @@
 #include "Button.h"
 
+#include <raylib.h>
+
 Button::Button(int x, int y, int widht, int height, std::function<void()> function)
 {
-	m_RectPos = new Rectangle { (float)x, (float)y, (float)widht, (float)height };
+    m_RectPos = new Rectangle{ (float)x, (float)y, (float)widht, (float)height };
     m_Function = function;
     m_UIManager = UIManager::GetInstance();
 }

@@ -34,40 +34,32 @@ void UDPClient::Connect(std::string ip, int port)
 {
     // setup address structure
     server.sin_family = AF_INET;
-    server.sin_port = htons(PORT);
-    server.sin_addr.S_un.S_addr = inet_addr(SERVER);
+    server.sin_port = htons(port);
+    server.sin_addr.S_un.S_addr = inet_addr(ip.c_str());
     m_isConnected = true;
 }
 
 void UDPClient::Run()
 {
+    Connect(SERVER, PORT);
+
+    char answer[BUFLEN] = {};
+    sockaddr_in server;
+    int slen = sizeof(sockaddr_in);
+
     while (true) {
-        /*char message[BUFLEN];
-        cout << "Enter message: ";
-        cin.getline(message, BUFLEN);
-
-        // send the message
-        if (sendto(client_socket, message, strlen(message), 0, (sockaddr*)&server, sizeof(sockaddr_in)) == SOCKET_ERROR) {
-            cout << "sendto() failed with error code: " << WSAGetLastError() << "\n";
-            exit(EXIT_FAILURE);
+        int answer_length = recvfrom(client_socket, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
+        if (answer_length == SOCKET_ERROR) {
+            int errorCode = WSAGetLastError();
+            if (errorCode == WSAEWOULDBLOCK) {
+                continue; // Pas de données, on continue à écouter
+            }
+            std::cout << "recvfrom() failed with error code: " << errorCode << "\n";
+            break;
         }
 
-        // receive a reply and print it
-        // clear the answer by filling null, it might have previously received data
-        char answer[BUFLEN] = {};
 
-        // try to receive some data, this is a blocking call
-        int slen = sizeof(sockaddr_in);
-        int answer_length;
-        if ((answer_length = recvfrom(client_socket, answer, BUFLEN, 0, (sockaddr*)&server, &slen)) == SOCKET_ERROR) {
-            cout << "recvfrom() failed with error code: " << WSAGetLastError() << "\n";
-            exit(EXIT_FAILURE);
-        }
-
-        cout << "Server's response: " << answer << "\n";*/
-        if (m_isConnected) 
-        {
-
-        }
+        answer[answer_length] = '\0'; // Assure que le message est bien terminé
+        std::cout << "Server: " << answer << "\n";
     }
 }

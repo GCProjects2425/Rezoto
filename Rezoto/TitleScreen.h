@@ -1,6 +1,5 @@
 #pragma once
 #include "GameScreen.h"
-#include "GameClient.h"
 
 class TitleScreen : public GameScreen
 {

@@ -1,4 +1,5 @@
 #pragma once
+#include "Singleton.h"
 #include <iostream>
 #include <winsock2.h>
 using namespace std;
@@ -9,8 +10,9 @@ using namespace std;
 #define BUFLEN 512
 #define PORT 8888
 
-class UDPServer
+class UDPServer : public Singleton<UDPServer>
 {
+	friend class Singleton<UDPServer>;
 public:
     UDPServer();
     ~UDPServer();

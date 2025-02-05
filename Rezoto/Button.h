@@ -3,7 +3,10 @@
 #include <functional>
 #include "UIManager.h"
 
-class Button : public UiElement
+class Rectangle;
+
+class Button :
+    public UiElement
 {
     std::function<void()> m_Function;
     Rectangle* m_RectPos;

@@ -4,27 +4,32 @@
 #include <string>
 #include "GameScreen.h"
 #include "UIManager.h"
+#include "Singleton.h"
+
+#include "PongScreen.h"
+#include "TitleScreen.h"
+#include "ConnectionRoom.h"
 
 #define CALIBER 12
 
 // User-defined types.
 typedef enum Direction { UP = 0, DOWN } Direction;
 
-class GameClient
+class GameClient : public Singleton<GameClient>
 {
-
+	friend class Singleton<GameClient>;
 public:
 
-	GameClient() {};
+	GameClient();
 
 	// Global variables. They are global indeed.
 	GameScreen* CurrentScreen;
 
-	GameScreen* PongScreen;
-	GameScreen* TitleScreen;
-	GameScreen* ConnectionRoom;
+	PongScreen* PongScreen;
+	TitleScreen* TitleScreen;
+	ConnectionRoom* ConnectionRoom;
 
-	Rectangle screen, playableBorder, top, bottom, ball, leftRacket, rightRacket;
+	LeRectangle screen, playableBorder, top, bottom, ball, leftRacket, rightRacket;
 	int rightScore, leftScore, scoreWidth, winner;
 
 	// Prototypes.
@@ -36,9 +41,11 @@ public:
 	void CheckScore();
 
 	void MoveBall();
-	void MoveRacket(Rectangle* pRacket, Direction pDir); 
+	void MoveRacket(LeRectangle* pRacket, Direction pDir); 
 	void ComputeGameplay();
 	void Draw();
+
+	int Run();
 
 	void ComputeGameplayScreen();
 };

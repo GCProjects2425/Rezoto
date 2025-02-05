@@ -1,4 +1,5 @@
 #include "InputField.h"
+#include <raylib.h>
 #include <regex>
 
 InputField::InputField(int x, int y, int widht, int height)
@@ -10,7 +11,7 @@ InputField::InputField(int x, int y, int widht, int height)
 void InputField::Update()
 {
     //----------------------------------------------------------------------------------
-    if (CheckCollisionPointRec(GetMousePosition(), *m_RectPos)) m_bMouseOnText = true;
+    if (CheckCollisionPointRec(GetMousePosition(), *m_RectPos.ToRectangle())) m_bMouseOnText = true;
     else m_bMouseOnText = false;
 
     if (m_bMouseOnText)
@@ -31,8 +32,13 @@ void InputField::Update()
         // Check if more characters have been pressed on the same frame
         while (key > 0)
         {
+            bool condition;
+            if (type == Number)
+                condition = (((key >= 48) && (key <= 57)) || key == 46) && (letterCount < 12);
+            if (type == All)
+                condition = (key >= 32) && (key <= 125) && (letterCount < 10);
             // NOTE: Only allow keys in range [32..125]
-            if ((((key >= 48) && (key <= 57)) || key == 46) && (m_iLetterCount < 12))
+            if (condition)
             {
                 m_cContent[m_iLetterCount] = (char)key;
                 m_cContent[m_iLetterCount + 1] = '\0'; // Add null terminator at the end of the string.
@@ -56,7 +62,7 @@ void InputField::Draw()
 {
     ClearBackground(BLACK);
 
-    DrawRectangleRec(*m_RectPos, LIGHTGRAY);
+    DrawRectangleRec(*m_RectPos.ToRectangle(), LIGHTGRAY);
     if (m_bMouseOnText) DrawRectangleLines((int)m_RectPos->x, (int)m_RectPos->y, (int)m_RectPos->width, (int)m_RectPos->height, RED);
     else DrawRectangleLines((int)m_RectPos->x, (int)m_RectPos->y, (int)m_RectPos->width, (int)m_RectPos->height, DARKGRAY);
 
@@ -83,4 +89,9 @@ void InputField::SetPosition(int x, int y)
 void InputField::SetLabelText(std::string text)
 {
     m_sLabelText = text;
+}
+
+void InputField::SetInputType(InputFieldType newType)
+{
+    type = newType;
 }
