@@ -1,6 +1,12 @@
 #pragma once
 #include "Singleton.h"
 #include "CustomStruct.h"
+enum CustomKey {
+	K_UP = 265,
+	K_DOWN = 264,
+	K_ENTER = 257,
+	K_ESCAPE = 256
+};
 
 class UIManager final : public Singleton<UIManager>
 {
@@ -14,5 +20,7 @@ public:
 	LeVector2 m_iMousePosition;
 
 	void Update();
+	bool IsKeyDown(CustomKey key);
+	bool IsKeyPressed(CustomKey key);
 };
 
