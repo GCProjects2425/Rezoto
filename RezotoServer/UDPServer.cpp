@@ -1,4 +1,5 @@
 #include "UDPServer.h"
+#include "Message.h"
 
 UDPServer& UDPServer::GetInstance() {
     static UDPServer instance;
@@ -64,6 +65,8 @@ void UDPServer::ReceiveMessages() {
 
         std::string message(buffer, recvLen);
         std::cout << "Received from " << inet_ntoa(clientAddr.sin_addr) << ":" << ntohs(clientAddr.sin_port) << " -> " << message << std::endl;
+        Message* mess = new Message();
+        mess->fromString(message);
 
         std::lock_guard<std::mutex> lock(clientsMutex);
         clients.push_back(clientAddr);
