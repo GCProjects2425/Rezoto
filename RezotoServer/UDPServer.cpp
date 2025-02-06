@@ -64,6 +64,8 @@ void UDPServer::Start() {
             cout << "Received packet from " << inet_ntoa(client.sin_addr) << " " << ntohs(client.sin_port) << "\n";
             cout << "Data: " << message << "\n";
 
+            SendMessageToSelf("OK CONNARD");
+
             /* cout << "Enter response (exit to stop server process): ";
              cin.getline(message, BUFLEN);*/
 
@@ -91,8 +93,8 @@ void UDPServer::SendMessageToSelf(const std::string& message)
 {
     sockaddr_in selfAddr;
     selfAddr.sin_family = AF_INET;
-    selfAddr.sin_addr.s_addr = inet_addr("127.0.0.1");  // Envoi à localhost        
-    selfAddr.sin_port = htons(PORT);  // Utilisation du même port que le serveur
+    selfAddr.sin_addr.s_addr = inet_addr(inet_ntoa(client.sin_addr));  // Envoi à localhost        
+    selfAddr.sin_port = htons(client.sin_port);  // Utilisation du même port que le serveur
 
     // Envoyer le message
     if (sendto(server_socket, message.c_str(), message.length(), 0, (sockaddr*)&selfAddr, sizeof(selfAddr)) == SOCKET_ERROR) {
