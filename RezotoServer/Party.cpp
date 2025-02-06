@@ -3,7 +3,7 @@
 #include <ctime>
 #include <raylib.h>
 
-Party::Party() : m_score(0)
+Party::Party() 
 {
 	m_ID = rand();
 
