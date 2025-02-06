@@ -37,6 +37,6 @@ void ConnectionRoom::StartScreen(GameClient* gameClient)
 
 void ConnectionRoom::Test()
 {
-    UDPClient::GetInstance()->Connect("10.1.40.125", 8888);
+    UDPClient::GetInstance()->Connect("127.0.0.1", 8888);
     std::cout << "button pressed" << std::endl;
 }

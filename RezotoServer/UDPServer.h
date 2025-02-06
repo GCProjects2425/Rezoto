@@ -1,7 +1,9 @@
 #pragma once
 #include "Singleton.h"
+#include "Message.h"
 #include <iostream>
 #include <winsock2.h>
+#include <queue>
 using namespace std;
 
 #pragma comment(lib,"ws2_32.lib")
@@ -18,12 +20,18 @@ public:
     ~UDPServer();
 
     void Start();
-    void SendMessageToSelf(const std::string& message);
+    void SendMessageToClient(std::shared_ptr<Message> message);
 
-
+    void PushMessage(Message::MessageType type, std::string message);
+    std::shared_ptr<Message> PopReceivedMessage();
+    bool IsEmpty();
 private:
     WSADATA wsa{};
     SOCKET server_socket = 0;
     sockaddr_in server{}, client{};
+    std::queue<std::shared_ptr<Message>> m_MessagesToSend;
+    std::queue<std::shared_ptr<Message>> m_MessagesReceived;
+    std::mutex queueMutex;
+
     bool exitRequested = false;
 };

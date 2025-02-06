@@ -133,6 +133,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameServerGUI.cpp" />
     <ClCompile Include="GameStatus.cpp" />
+    <ClCompile Include="Message.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="RezotoServer.cpp" />
     <ClCompile Include="Singleton.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameServerGUI.h" />
     <ClInclude Include="GameStatus.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="UDPServer.h" />
