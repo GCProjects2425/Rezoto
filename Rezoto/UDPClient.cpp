@@ -3,7 +3,7 @@
 #include <iostream>
 
 #define BUFLEN 0xFFF  // max length of answer - header datas
-#define SERVER "127.0.0.1"
+#define SERVER /*"10.1.40.125"*/"127.0.0.1"
 #define PORT 8888
 
 UDPClient::UDPClient()
@@ -89,7 +89,11 @@ void UDPClient::Run()
             if (message_len < BUFLEN)
             {
                 answer[message_len] = '\0'; // Assurer que la chaîne est terminée
-                std::cout << "Server: " << answer << "\n";
+#ifdef _DEBUG
+                std::cout << "Message sent to server: " << answer << "\n";
+#endif
+                std::shared_ptr<Message> messageReceived(Message::fromString(answer));
+                m_MessagesReceived.push(std::move(messageReceived));
             }
         }
     }
@@ -99,6 +103,17 @@ void UDPClient::PushMessage(Message::MessageType type, std::string message)
 {
     std::lock_guard<std::mutex> lock(queueMutex);
     m_MessagesToSend.push(std::make_unique<Message>(type, std::move(message)));
+}
+
+std::shared_ptr<Message> UDPClient::PopReceivedMessage()
+{
+    std::lock_guard<std::mutex> lock(queueMutex);
+    std::shared_ptr<Message> lastMessage = nullptr;
+    if (!m_MessagesToSend.empty()) {
+        lastMessage = std::move(m_MessagesToSend.front());
+        m_MessagesToSend.pop();
+    }
+    return lastMessage;
 }
 
 bool UDPClient::IsEmpty() {

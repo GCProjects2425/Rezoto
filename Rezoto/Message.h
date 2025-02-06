@@ -29,7 +29,7 @@ struct Message
 		return std::to_string(type) + "|" + message;
 	}
 
-	static Message fromString(const std::string& str) {
+	static Message* fromString(const std::string& str) {
 		Message msg;
 		std::stringstream ss(str);
 		std::string v1, v2;
@@ -48,7 +48,7 @@ struct Message
 			break;
 		}
 
-		return msg;
+		return &msg;
 	}
 };
 

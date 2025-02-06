@@ -26,12 +26,14 @@ public:
     void Run();
 
     void PushMessage(Message::MessageType type, std::string message);
+    std::shared_ptr<Message> PopReceivedMessage();
     bool IsEmpty();
 private:
     WSADATA ws{};
     SOCKET client_socket = 0;
     sockaddr_in server{};
     std::queue<std::shared_ptr<Message>> m_MessagesToSend;
+    std::queue<std::shared_ptr<Message>> m_MessagesReceived;
     std::mutex queueMutex;
 
     bool m_isConnected = 0;
