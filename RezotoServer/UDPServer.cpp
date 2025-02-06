@@ -68,7 +68,7 @@ void UDPServer::ReceiveMessages() {
         std::lock_guard<std::mutex> lock(clientsMutex);
         clients.push_back(clientAddr);
 
-        SendMessageToClient("Message received!", clientAddr);
+        SendMessageToClient("Oui bon je l'ai ton message!", clientAddr);
     }
 }
 

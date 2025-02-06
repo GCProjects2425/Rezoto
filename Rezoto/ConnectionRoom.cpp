@@ -55,6 +55,6 @@ void ConnectionRoom::TryConnectRoom()
 
 void ConnectionRoom::Test()
 {
-    UDPClient::GetInstance()->Connect("127.0.0.1", 8888);
+    UDPClient::GetInstance()->SendMessageW("Ouais");
     std::cout << "button pressed" << std::endl;
 }

@@ -7,7 +7,7 @@
 int main(void)
 {
     // Network thread
-    std::thread networkThread(std::bind(&UDPClient::Run, UDPClient::GetInstance()));
+    std::thread networkThread(std::bind(&UDPClient::StartReceiving, UDPClient::GetInstance()));
     SetThreadDescription((HANDLE)networkThread.native_handle(), L"NetworkThread");
 
 	std::thread gameThread(std::bind(&GameClient::Run, GameClient::GetInstance()));

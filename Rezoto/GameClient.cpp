@@ -9,7 +9,7 @@ GameClient::GameClient()
 	ConnectionRoom = new class ConnectionRoom;
 }
 
-//CLIENT - (se lancera après la connexion + reception des infos par le serveur)
+//CLIENT - (se lancera aprï¿½s la connexion + reception des infos par le serveur)
 void GameClient::InitializeElements(void)
 {
     InitWindow(800 , 600, "Pong");
@@ -66,7 +66,7 @@ void GameClient::MoveRacket(LeRectangle* pRacket, Direction pDir)
     pRacket->y += step;
 }
 
-//CLIENT - MODIFIER POUR CLIENT SOLO (contrôle up/down sans connaissance du côté contrôlé -> server attribue le contrôle dans le compute)
+//CLIENT - MODIFIER POUR CLIENT SOLO (contrï¿½le up/down sans connaissance du cï¿½tï¿½ contrï¿½lï¿½ -> server attribue le contrï¿½le dans le compute)
 void GameClient::ComputeGameplay()
 {
     MoveBall();

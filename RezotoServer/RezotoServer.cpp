@@ -17,7 +17,7 @@ int main() {
     std::thread guiThread(std::bind(&GameServerGUI::Run, &gui));
     SetThreadDescription((HANDLE)guiThread.native_handle(), L"GuiThread");
 
-    std::thread networkThread(std::bind(&UDPServer::Start, UDPServer::GetInstance()));
+    std::thread networkThread(&UDPServer::Start, std::ref(UDPServer::GetInstance()));
     SetThreadDescription((HANDLE)networkThread.native_handle(), L"NetworkThread");
 
 
