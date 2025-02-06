@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#define BUFLEN 0xFFFF - 0xFF  // max length of answer - header datas
+#define BUFLEN 0xFFF  // max length of answer - header datas
 #define SERVER "127.0.0.1"
 #define PORT 8888
 
@@ -41,6 +41,7 @@ void UDPClient::Connect(std::string ip, int port)
     server.sin_addr.s_addr = inet_addr(ip.c_str()); // Utiliser l'IP passée en paramètre
 
     // En UDP, pas besoin de `connect()`
+    PushMessage(Message::Connect, "Salut");
     m_isConnected = true;
 }
 
@@ -48,16 +49,31 @@ void UDPClient::Run()
 {
     char answer[BUFLEN] = {};
     int slen = sizeof(sockaddr_in);
-    Connect(SERVER, PORT);
     while (true) {
-        if (true) {
+        if (m_isConnected) {
             // Envoi d'un message au serveur
-            const char* message = "Hello from client!";
-            if (sendto(client_socket, message, strlen(message), 0, (sockaddr*)&server, sizeof(sockaddr_in)) == SOCKET_ERROR) {
-                std::cout << "sendto() failed with error code: " << WSAGetLastError() << "\n";
-                continue;
+            std::shared_ptr<Message> messageToSend = nullptr;
+            {
+                std::lock_guard<std::mutex> lock(queueMutex);
+                if (!m_MessagesToSend.empty()) {
+                    messageToSend = std::move(m_MessagesToSend.front());
+                    m_MessagesToSend.pop();
+                }
             }
-            std::cout << "Message sent to server: " << message << "\n";
+
+            if (messageToSend) {
+                std::string serializedMessage = messageToSend->toString();
+                if (sendto(client_socket, serializedMessage.c_str(), serializedMessage.size(), 0, (sockaddr*)&server, sizeof(sockaddr_in)) == SOCKET_ERROR) 
+                {
+                    std::cout << "sendto() failed with error code: " << WSAGetLastError() << "\n";
+                }
+#ifdef _DEBUG
+                else 
+                {
+                    std::cout << "Message sent to server: " << serializedMessage << "\n";
+                }
+#endif
+            }
 
             // Réception de la réponse du serveur
             int message_len;
@@ -70,8 +86,22 @@ void UDPClient::Run()
                 break;
             }
 
-            answer[message_len] = '\0'; // Assurer que la chaîne est terminée
-            std::cout << "Server: " << answer << "\n";
+            if (message_len < BUFLEN)
+            {
+                answer[message_len] = '\0'; // Assurer que la chaîne est terminée
+                std::cout << "Server: " << answer << "\n";
+            }
         }
     }
+}
+
+void UDPClient::PushMessage(Message::MessageType type, std::string message)
+{
+    std::lock_guard<std::mutex> lock(queueMutex);
+    m_MessagesToSend.push(std::make_unique<Message>(type, std::move(message)));
+}
+
+bool UDPClient::IsEmpty() {
+    std::lock_guard<std::mutex> lock(queueMutex);
+    return m_MessagesToSend.empty();
 }

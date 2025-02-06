@@ -5,8 +5,9 @@
 
 struct Message
 {
-	enum MesageType {
-		Ping = 0,
+	enum MessageType {
+		None = 0,
+		Ping,
 		Connect,
 		Disconnect,
 		GameStatus,
@@ -18,8 +19,11 @@ struct Message
 		Lose
 	};
 
-	MesageType type;
-	char message[0xFFFF-0xFF];
+	MessageType type;
+	std::string message;
+
+	Message() : type(None) {};
+	explicit Message(MessageType msgType, std::string msg) : type(msgType), message(std::move(msg)) {}
 
 	std::string toString() const {
 		return std::to_string(type) + "|" + message;
@@ -33,7 +37,7 @@ struct Message
 		std::getline(ss, v1, '|');
 		std::getline(ss, v2, '|');
 
-		msg.type = static_cast<MesageType>(std::stoi(v1));
+		msg.type = static_cast<MessageType>(std::stoi(v1));
 
 		switch (msg.type)
 		{
