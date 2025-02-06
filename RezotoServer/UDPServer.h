@@ -1,37 +1,35 @@
-#pragma once
-#include "Singleton.h"
-#include "Message.h"
+#ifndef UDP_SERVER_H
+#define UDP_SERVER_H
+
 #include <iostream>
 #include <winsock2.h>
-#include <queue>
-using namespace std;
+#include <thread>
+#include <vector>
+#include <mutex>
 
-#pragma comment(lib,"ws2_32.lib")
-#pragma warning(disable:4996) 
+#pragma comment(lib, "ws2_32.lib")
 
-#define BUFLEN 512
-#define PORT 8888
+#define SERVER_PORT 8888
+#define BUFFER_SIZE 512
 
-class UDPServer : public Singleton<UDPServer>
-{
-	friend class Singleton<UDPServer>;
+class UDPServer {
 public:
+    static UDPServer& GetInstance();  // Singleton pour obtenir une instance unique
+
+    void Start();
+    void SendMessageToClient(const std::string& message, sockaddr_in& clientAddr);
+
+private:
     UDPServer();
     ~UDPServer();
 
-    void Start();
-    void SendMessageToClient(std::shared_ptr<Message> message);
+    void ReceiveMessages();
 
-    void PushMessage(Message::MessageType type, std::string message);
-    std::shared_ptr<Message> PopReceivedMessage();
-    bool IsEmpty();
-private:
-    WSADATA wsa{};
-    SOCKET server_socket = 0;
-    sockaddr_in server{}, client{};
-    std::queue<std::shared_ptr<Message>> m_MessagesToSend;
-    std::queue<std::shared_ptr<Message>> m_MessagesReceived;
-    std::mutex queueMutex;
-
-    bool exitRequested = false;
+    SOCKET serverSocket;
+    sockaddr_in serverAddr;
+    std::vector<sockaddr_in> clients;
+    std::mutex clientsMutex;
+    bool running;
 };
+
+#endif

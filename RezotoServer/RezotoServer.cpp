@@ -20,6 +20,8 @@ int main() {
     std::thread networkThread(std::bind(&UDPServer::Start, UDPServer::GetInstance()));
     SetThreadDescription((HANDLE)networkThread.native_handle(), L"NetworkThread");
 
+
+
     networkThread.join();
     guiThread.join();
 
