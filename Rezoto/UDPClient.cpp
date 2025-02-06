@@ -8,7 +8,7 @@ UDPClient::UDPClient() {
         exit(EXIT_FAILURE);
     }
 
-    clientSocket = socket(AF_INET, SOCK_DGRAM, 0);
+    clientSocket = socket(AF_INET, SOCK_DGRAM, 17);
     if (clientSocket == INVALID_SOCKET) {
         std::cerr << "Socket creation failed. Error: " << WSAGetLastError() << std::endl;
         WSACleanup();

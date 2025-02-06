@@ -13,7 +13,7 @@ UDPServer::UDPServer() {
         exit(EXIT_FAILURE);
     }
 
-    serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
+    serverSocket = socket(AF_INET, SOCK_DGRAM, 17);
     if (serverSocket == INVALID_SOCKET) {
         std::cerr << "Socket creation failed. Error: " << WSAGetLastError() << std::endl;
         WSACleanup();
