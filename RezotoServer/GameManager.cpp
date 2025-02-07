@@ -75,6 +75,13 @@ void GameManager::Update()
 		}
 	}
 
+	if (m_lPlayers.size() > 1 && m_lParties.size() == 0)
+	{
+		CreateParty();
+		m_lParties.back().AddPlayer(&m_lPlayers.front());
+		m_lParties.back().AddPlayer(&m_lPlayers.back());
+	}
+
 	for (Party& party : m_lParties)
 	{
 		//UPDATE GAME

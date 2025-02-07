@@ -46,6 +46,7 @@ public:
 	int GetWinner() { return m_iWinner; }
 
 	std::vector<Player*> GetPlayerList() { return m_vPlayerList; }
+	void AddPlayer(Player* pPlayer) { m_vPlayerList.push_back(pPlayer); }
 
 	void ComputeGame();
 private:
