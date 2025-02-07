@@ -68,7 +68,7 @@ void GameManager::Update()
 
 	for (Player& player : m_lPlayers)
 	{
-		if (time(0) - player.lastPing > 2)
+		if (time(0) - player.lastPing > 1)
 		{
 			if (RemovePlayerByIP(player.ip) > 0)
 				break;
@@ -120,6 +120,7 @@ void GameManager::ManageMessages()
 	while (!UDPServer::GetInstance()->IsEmpty())
 	{
 		std::shared_ptr<Message> message = UDPServer::GetInstance()->PopReceivedMessage();
+		if (message == nullptr) continue;
 		switch (message->type)
 		{
 		case Message::Ping:

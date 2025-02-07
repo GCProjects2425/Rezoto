@@ -130,9 +130,9 @@ bool UDPClient::IsEmpty() {
 
 void UDPClient::PingServer()
 {
-	if (m_isConnected && difftime(time(0), lastPing) > 1)
+	PushMessage(Message::Ping, "Ping");
+	/*if (m_isConnected && difftime(time(0), lastPing) > 1)
 	{
-		PushMessage(Message::Ping, "Ping");
 		lastPing = time(0);
-	}
+	}*/
 }
