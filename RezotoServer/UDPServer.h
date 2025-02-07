@@ -1,37 +1,37 @@
-#ifndef UDP_SERVER_H
-#define UDP_SERVER_H
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
-
+#pragma once
+#include "Singleton.h"
+#include "Message.h"
 #include <iostream>
 #include <winsock2.h>
-#include <thread>
-#include <vector>
-#include <mutex>
-#include "Singleton.h"
+#include <queue>
+using namespace std;
 
-#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib,"ws2_32.lib")
+#pragma warning(disable:4996) 
 
-#define SERVER_PORT 8888
-#define BUFFER_SIZE 512
+#define BUFLEN 512
+#define PORT 8888
 
-class UDPServer : public Singleton<UDPServer> {
+class UDPServer : public Singleton<UDPServer>
+{
+	friend class Singleton<UDPServer>;
 public:
-    static UDPServer& GetInstance();  // Singleton pour obtenir une instance unique
-
-    void Start();
-    void SendMessageToClient(const std::string& message, sockaddr_in& clientAddr);
-
-private:
     UDPServer();
     ~UDPServer();
 
-    void ReceiveMessages();
+    void Start();
+    void SendMessageToClient(std::shared_ptr<Message> message);
 
-    SOCKET serverSocket;
-    sockaddr_in serverAddr;
-    std::vector<sockaddr_in> clients;
-    std::mutex clientsMutex;
-    bool running;
+    void PushMessage(Message::MessageType type, std::string message, std::string ip, int port);
+    std::shared_ptr<Message> PopReceivedMessage();
+    bool IsEmpty();
+private:
+    WSADATA wsa{};
+    SOCKET server_socket = 0;
+    sockaddr_in server{}, client{};
+    std::queue<std::shared_ptr<Message>> m_MessagesToSend;
+    std::queue<std::shared_ptr<Message>> m_MessagesReceived;
+    std::mutex queueMutex;
+
+    bool exitRequested = false;
 };
-
-#endif
