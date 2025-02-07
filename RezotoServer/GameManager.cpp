@@ -79,7 +79,7 @@ void GameManager::Update()
 
 	for (Player& player : m_lPlayers)
 	{
-		if (time(0) - player.lastPing > 1)
+		if (time(0) - player.lastPing > 3)
 		{
 			if (RemovePlayerByIP(player.ip) > 0)
 				break;
