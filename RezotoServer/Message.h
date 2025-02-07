@@ -42,17 +42,9 @@ struct Message
 		std::getline(ss, v2, '|');
 
 		msg.type = static_cast<MessageType>(std::stoi(v1));
+		msg.message = v2;
 
-		switch (msg.type)
-		{
-		case Ping:
-			// ping behaviour
-			break;
-		default:
-			break;
-		}
-
-		return std::move(msg);
+		return msg;
 	}
 };
 

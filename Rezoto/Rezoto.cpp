@@ -6,6 +6,8 @@
 
 int main(void)
 {
+    system("title Le Rezoto c'est bon");
+
     // Network thread
     std::thread networkThread(std::bind(&UDPClient::Run, UDPClient::GetInstance()));
     SetThreadDescription((HANDLE)networkThread.native_handle(), L"NetworkThread");

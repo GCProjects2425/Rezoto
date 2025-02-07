@@ -15,6 +15,14 @@ int GameManager::CreateParty()
 	return it.GetID();
 }
 
+int GameManager::RegisterPlayer(const std::string& ip, const std::string& username, int port)
+{
+	Player& it = m_lPlayers.emplace_back(ip, username, port);
+
+	m_isPlayerListUpdated = true;
+    return 0;
+}
+
 Party* GameManager::FindPartyByID(int searchID)
 {
 	for (Party& party : m_lParties) {
@@ -36,8 +44,28 @@ int GameManager::RemovePartyByID(int searchID)
 	return -1;
 }
 
+const bool GameManager::IsPlayerListUpdated()
+{
+	if (m_isPlayerListUpdated)
+	{
+		m_isPlayerListUpdated = false;
+		return true;
+	}
+	return false;
+}
+
+void GameManager::Run()
+{
+	while (true)
+	{
+		Update();
+	}
+}
+
 void GameManager::Update()
 {
+	ManageMessages();
+
 	for (Party& party : m_lParties)
 	{
 		//UPDATE GAME
@@ -68,4 +96,57 @@ void GameManager::Update()
 			//m_server->PushMessage(Message::GameStatus, std::to_string(party.GetWinner()), playerList[i]->ip, 8888);
 		}
 	}
+}
+
+void GameManager::ManageMessages()
+{
+	while (!UDPServer::GetInstance()->IsEmpty())
+	{
+		std::shared_ptr<Message> message = UDPServer::GetInstance()->PopReceivedMessage();
+		switch (message->type)
+		{
+		case Message::Connect:
+			RegisterPlayer(message->ip, message->message, message->port);
+			break;
+		case Message::Disconnect:
+			RemovePlayerByIP(message->ip);
+			break;
+		case Message::Ready:
+			break;
+		case Message::Unready:
+			break;
+		case Message::Play:
+			break;
+		case Message::Stop:
+			break;
+		case Message::Win:
+			break;
+		case Message::Lose:
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+Player* GameManager::FindPlayerByIP(const std::string& searchIP)
+{
+    for (Player& player : m_lPlayers) {
+        if (player.ip == searchIP) {
+            return &player;
+        }
+    }
+    return nullptr;
+}
+
+int GameManager::RemovePlayerByIP(const std::string& searchIP)
+{
+    for (PlayerList::iterator it = m_lPlayers.begin(); it != m_lPlayers.end(); ++it) {
+        if (it->ip == searchIP) {
+            m_lPlayers.erase(it);
+            return 1;
+        }
+    }
+
+    return -1;
 }

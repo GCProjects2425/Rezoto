@@ -13,7 +13,7 @@ void GameServerGUI::RegisterWindowClass() {
 
 void GameServerGUI::CreateAppWindow() {
     hwnd = CreateWindowExA(0, "GameServerUI", "Gestion du Serveur", WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 500, 300,
+        CW_USEDEFAULT, CW_USEDEFAULT, 500, 500,
         NULL, NULL, hInstance, this);
 
     if (!hwnd) {
@@ -30,6 +30,8 @@ void GameServerGUI::CreateAppWindow() {
         20, 150, 150, 30, hwnd, (HMENU)ID_BUTTON_DELETE, NULL, NULL);
     hwndListBox = CreateWindowA("LISTBOX", "", WS_VISIBLE | WS_CHILD | WS_BORDER | LBS_NOTIFY | WS_VSCROLL,
         200, 50, 250, 150, hwnd, (HMENU)ID_LISTBOX, NULL, NULL);
+    hwndPlayerList = CreateWindowA("LISTBOX", "", WS_VISIBLE | WS_CHILD | WS_BORDER | LBS_NOTIFY | WS_VSCROLL,
+        20, 220, 430, 200, hwnd, (HMENU)ID_PLAYERLIST, NULL, NULL);
 
     ShowWindow(hwnd, SW_SHOWDEFAULT);
     SetTimer(hwnd, 1, 1000, NULL);
@@ -79,6 +81,27 @@ void GameServerGUI::OnListBoxSelection() {
 
             m_iSelectedPartyId = partyID;
             delete[] gameName;
+        }
+    }
+}
+
+void GameServerGUI::UpdatePlayerList()
+{
+    SendMessageA(hwndPlayerList, LB_RESETCONTENT, 0, 0);
+    if (GameManager* manager = GameManager::GetInstance())
+    {
+        const GameManager::PlayerList& playerList = manager->GetPlayerList();
+        if (playerList.empty()) return;
+
+        for (const Player& p : playerList)
+        {
+            char buffer[256];
+            std::tm bt{};
+			char time[64];
+            localtime_s(&bt, &p.connectionStart);
+			strftime(time, sizeof(time), "%Y-%m-%d %H:%M:%S", &bt);
+            sprintf_s(buffer, "%s | %s:%d | %s", p.username.c_str(), p.ip.c_str(), p.port, time);
+            SendMessageA(hwndPlayerList, LB_ADDSTRING, 0, (LPARAM)buffer);
         }
     }
 }
@@ -153,13 +176,8 @@ LRESULT GameServerGUI::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
     case WM_TIMER:
     {
-        //std::lock_guard<std::mutex> lock(logMutex);
-        std::string logs;
-        /*while (!logQueue.empty()) {
-            logs += logQueue.front() + "\r\n";
-            logQueue.pop();
-        }
-        SetWindowText(hwndLog, logs.c_str());*/
+		if (GameManager::GetInstance()->IsPlayerListUpdated())
+			UpdatePlayerList();
     }
     break;
 

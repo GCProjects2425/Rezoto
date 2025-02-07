@@ -4,10 +4,12 @@
 #define ID_BUTTON_VIEW 2
 #define ID_BUTTON_DELETE 3
 #define ID_LISTBOX 4
+#define ID_PLAYERLIST 5
 
-class GameServerGUI {
+class GameServerGUI 
+{
 public:
-    GameServerGUI(HINSTANCE hInstance) : hInstance(hInstance), hwnd(NULL), hwndListBox(NULL) {}
+    GameServerGUI(HINSTANCE hInstance) : hInstance(hInstance), hwnd(NULL), hwndListBox(NULL), hwndPlayerList(NULL) {}
 
     void Run() {
         RegisterWindowClass();
@@ -19,6 +21,7 @@ private:
     HINSTANCE hInstance;
     HWND hwnd;
     HWND hwndListBox;
+    HWND hwndPlayerList;
     int m_iSelectedPartyId = 0;
 
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -43,6 +46,8 @@ private:
     void MessageLoop();
     void UpdateListBox();
     void OnListBoxSelection();
+
+	void UpdatePlayerList();
 
     // Utils
     int ExtractPartyID(const std::string& partyString);
