@@ -52,6 +52,7 @@ void UDPClient::Run()
 	char answer[BUFLEN] = {};
 	int slen = sizeof(sockaddr_in);
 	while (true) {
+		ManageMessages();
 		if (m_isConnected) {
 			PingServer();
 
@@ -104,7 +105,6 @@ void UDPClient::Run()
 				m_MessagesReceived.push(std::move(messageReceived));
 			}
 		}
-		ManageMessages();
 	}
 }
 
