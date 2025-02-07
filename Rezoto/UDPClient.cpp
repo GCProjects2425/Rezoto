@@ -118,16 +118,16 @@ std::shared_ptr<Message> UDPClient::PopReceivedMessage()
 {
 	std::lock_guard<std::mutex> lock(queueMutex);
 	std::shared_ptr<Message> lastMessage = nullptr;
-	if (!m_MessagesToSend.empty()) {
-		lastMessage = std::move(m_MessagesToSend.front());
-		m_MessagesToSend.pop();
+	if (!m_MessagesReceived.empty()) {
+		lastMessage = std::move(m_MessagesReceived.front());
+		m_MessagesReceived.pop();
 	}
 	return lastMessage;
 }
 
 bool UDPClient::IsEmpty() {
 	std::lock_guard<std::mutex> lock(queueMutex);
-	return m_MessagesToSend.empty();
+	return m_MessagesReceived.empty();
 }
 
 void UDPClient::PingServer()
