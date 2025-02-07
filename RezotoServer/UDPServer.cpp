@@ -1,4 +1,11 @@
 #include "UDPServer.h"
+#include "Message.h"
+
+//UDPServer& UDPServer::GetInstance() {
+//    static UDPServer instance;
+//    return instance;
+//}
+
 UDPServer::UDPServer() {
     // initialise winsock
     cout << "Initialising Winsock...\n";

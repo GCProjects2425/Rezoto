@@ -27,6 +27,17 @@ public:
 	Party();
 
 	int GetID() const { return m_ID; }
+
+	LeVector2 GetBallPos() { return m_BallPos; }
+	LeVector2 GetLeftRacketPos() { return m_LeftRacketPos; }
+	LeVector2 GetRightRacketPos() { return m_RightRacketPos; }
+
+	int GetLeftScore() { return m_iLeftScore; }
+	int GetRightScore() { return m_iRightScore; }
+	int GetWinner() { return m_iWinner; }
+
+	std::vector<Player*> GetPlayerList() { return m_vPlayerList; }
+
 	void ComputeGame();
 private:
 	//Room variables
@@ -39,8 +50,10 @@ private:
 	int m_iPointsToWin = 11;
 
 	LeVector2 m_BallPos;
-	LeVector2 m_PlayerPos1;
-	LeVector2 m_PlayerPos2;
+	LeVector2 m_LeftRacketPos;
+	LeVector2 m_RightRacketPos;
+
+	Direction m_LeftRacketDir, m_RightRacketDir;
 
 	void ComputeBallPos();
 	void ComputeRacketPos(LeRectangle* pRacket, Direction pDir);

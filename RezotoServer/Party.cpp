@@ -3,8 +3,11 @@
 #include <ctime>
 #include <raylib.h>
 
+#include "Message.h"
+
 Party::Party() 
 {
+    //m_Server = UDPServer::GetInstance();
 	m_ID = rand();
 
     m_Screen = { 0, 0, 800 , 600 };
@@ -18,6 +21,11 @@ Party::Party()
 void Party::ComputeGame()
 {
 	ComputeBallPos();
+
+    ComputeRacketPos(&m_LeftRacket, m_LeftRacketDir);
+    ComputeRacketPos(&m_RightRacket, m_RightRacketDir);
+
+    CheckWinner();
 }
 
 void Party::ComputeBallPos()
@@ -50,6 +58,11 @@ void Party::ComputeBallPos()
     // Move ball.
     m_Ball.x += xx;
     m_Ball.y += yy;
+
+
+
+    //auto mess = new Message(Message::Connect, "ouais");
+    //m_Server->SendMessageToClient(mess->toString(), );
 }
 
 void Party::ComputeRacketPos(LeRectangle* pRacket, Direction pDir)
@@ -66,8 +79,6 @@ void Party::ServeBall()
 {
     m_Ball.x = m_PlayableBorder.width / 2;
     m_Ball.y = GetRandomValue(m_PlayableBorder.y + 10, m_PlayableBorder.height);
-    
-    //TODO SEND BALL POSITION
 }
 
 void Party::CheckWinner()
