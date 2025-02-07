@@ -63,13 +63,12 @@ void ConnectionRoom::TryConnectRoom()
 		std::cout << "Username should be at least 2 char";
 		return;
 	}
-	auto mess = new Message(Message::Connect, "ouais");
-	UDPClient::GetInstance()->SendMessageW(mess->toString());
+	
+	UDPClient::GetInstance()->PushMessage(Message::Connect,"Ouais salut mon pote");
 	GameClient::GetInstance()->SetScreen(GameClient::GetInstance()->PongScreen);
 }
 
 void ConnectionRoom::Test()
 {
-	UDPClient::GetInstance()->SendMessageW("Ouais");
 	std::cout << "button pressed" << std::endl;
 }

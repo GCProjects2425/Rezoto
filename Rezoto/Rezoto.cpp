@@ -7,14 +7,14 @@
 int main(void)
 {
     // Network thread
-    std::thread networkThread(std::bind(&UDPClient::StartReceiving, UDPClient::GetInstance()));
+    std::thread networkThread(std::bind(&UDPClient::Run, UDPClient::GetInstance()));
     SetThreadDescription((HANDLE)networkThread.native_handle(), L"NetworkThread");
 
-	std::thread gameThread(std::bind(&GameClient::Run, GameClient::GetInstance()));
+    std::thread gameThread(std::bind(&GameClient::Run, GameClient::GetInstance()));
     SetThreadDescription((HANDLE)gameThread.native_handle(), L"GameThread");
 
-	gameThread.join();
-	networkThread.join();
+    gameThread.join();
+    networkThread.join();
 
     return 0;
 }
