@@ -22,7 +22,7 @@ public:
     void Start();
     void SendMessageToClient(std::shared_ptr<Message> message);
 
-    void PushMessage(Message::MessageType type, std::string message);
+    void PushMessage(Message::MessageType type, std::string message, std::string ip, int port);
     std::shared_ptr<Message> PopReceivedMessage();
     bool IsEmpty();
 private:

@@ -91,7 +91,7 @@ void UDPClient::Run()
 			{
 				answer[message_len] = '\0'; // Assurer que la chaîne est terminée
 #ifdef _DEBUG
-				std::cout << "Message sent to server: " << answer << "\n";
+				std::cout << "Message received from server: " << answer << "\n";
 #endif
 				std::shared_ptr<Message> messageReceived(Message::fromString(answer));
 				m_MessagesReceived.push(std::move(messageReceived));

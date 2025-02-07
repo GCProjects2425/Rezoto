@@ -76,13 +76,14 @@ void UDPServer::Start()
         {
             answer[message_len] = '\0'; // Assurer que la chaîne est terminée
 #ifdef _DEBUG
-            cout << "Received packet from " << inet_ntoa(client.sin_addr) << " " << ntohs(client.sin_port) << "\n";
+            cout << "Received packet from " << inet_ntoa(client.sin_addr) << " " << client.sin_port << "\n";
             cout << "Data: " << answer << "\n";
 #endif
-            std::shared_ptr<Message> messageReceived(Message::fromString(answer));
-            messageReceived->SetSenderIP(inet_ntoa(client.sin_addr));
-            messageReceived->SetSenderPort(client.sin_port);
-            m_MessagesReceived.push(std::move(messageReceived));
+            std::shared_ptr<Message> messageReceived = make_shared<Message>(Message::fromString(answer));
+            messageReceived->ip = inet_ntoa(client.sin_addr);
+            messageReceived->port = client.sin_port;
+            m_MessagesReceived.push(messageReceived);
+			PushMessage(Message::MessageType::Ping, "Pong", messageReceived->ip, messageReceived->port);
         }
 
     }
@@ -94,21 +95,21 @@ void UDPServer::SendMessageToClient(std::shared_ptr<Message> message)
     sockaddr_in selfAddr;
     selfAddr.sin_family = AF_INET;
     selfAddr.sin_addr.s_addr = inet_addr(message->ip.c_str());  // Envoi à localhost        
-    selfAddr.sin_port = htons(message->port);  // Utilisation du même port que le serveur
+    selfAddr.sin_port = message->port;  // Utilisation du même port que le serveur
 
     // Envoyer le message
     if (sendto(server_socket, message->toString().c_str(), message->toString().length(), 0, (sockaddr*)&selfAddr, sizeof(selfAddr)) == SOCKET_ERROR) {
         std::cout << "sendto() failed with error code: " << WSAGetLastError() << "\n";
     }
     else {
-        std::cout << "Message sent to client: " << message << "\n";
+        std::cout << "Message sent to " << message->ip << ":" << std::to_string(message->port) << " -> " << message->message << "\n";
     }
 }
 
-void UDPServer::PushMessage(Message::MessageType type, std::string message)
+void UDPServer::PushMessage(Message::MessageType type, std::string message, std::string ip, int port)
 {
     std::lock_guard<std::mutex> lock(queueMutex);
-    m_MessagesToSend.push(std::make_shared<Message>(type, std::move(message)));
+    m_MessagesToSend.push(std::make_shared<Message>(type, std::move(message), std::move(ip), port));
 }
 
 std::shared_ptr<Message> UDPServer::PopReceivedMessage()
