@@ -137,7 +137,8 @@ void GameManager::PingPlayer(const std::string& ip)
 
 void GameManager::ManageMessages()
 {
-	while (!UDPServer::GetInstance()->IsEmpty())
+	int i = 0;
+	while (!UDPServer::GetInstance()->IsEmpty() && i < 20)
 	{
 		std::shared_ptr<Message> message = UDPServer::GetInstance()->PopReceivedMessage();
 		if (message == nullptr) continue;
@@ -167,6 +168,7 @@ void GameManager::ManageMessages()
 		default:
 			break;
 		}
+		i++;
 	}
 }
 
