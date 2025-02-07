@@ -107,9 +107,11 @@ void UDPServer::SendMessageToClient(std::shared_ptr<Message> message)
     if (sendto(server_socket, message->toString().c_str(), message->toString().length(), 0, (sockaddr*)&selfAddr, sizeof(selfAddr)) == SOCKET_ERROR) {
         std::cout << "sendto() failed with error code: " << WSAGetLastError() << "\n";
     }
+#ifdef _DEBUG
     else {
         std::cout << "Message sent to " << message->ip << ":" << std::to_string(message->port) << " -> " << message->message << "\n";
     }
+#endif
 }
 
 void UDPServer::PushMessage(Message::MessageType type, std::string message, std::string ip, int port)
