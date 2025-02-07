@@ -79,10 +79,12 @@ void UDPServer::Start()
             cout << "Received packet from " << inet_ntoa(client.sin_addr) << " " << ntohs(client.sin_port) << "\n";
             cout << "Data: " << answer << "\n";
 #endif
-            std::shared_ptr<Message> messageReceived(Message::fromString(answer));
-            messageReceived->SetSenderIP(inet_ntoa(client.sin_addr));
-            messageReceived->SetSenderPort(client.sin_port);
-            m_MessagesReceived.push(std::move(messageReceived));
+            
+            std::shared_ptr<Message> messageReceived = make_shared<Message>(Message::fromString(answer));
+            messageReceived->ip = inet_ntoa(client.sin_addr);
+            messageReceived->port = client.sin_port;
+            m_MessagesReceived.push(messageReceived);
+            SendMessageToClient(std::move(messageReceived));
         }
 
     }
