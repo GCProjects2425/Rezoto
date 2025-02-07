@@ -142,7 +142,7 @@ void UDPClient::PingServer()
 void UDPClient::ManageMessages()
 {
 	int i = 0;
-	while (this->IsEmpty() && i < 20)
+	while (!this->IsEmpty() && i < 20)
 	{
 		std::shared_ptr<Message> message = this->PopReceivedMessage();
 		if (message == nullptr) continue;
