@@ -18,6 +18,10 @@ void GameClient::InitializeElements(void)
     m_PlayableBorder = { CALIBER, CALIBER, m_Screen.width - (2 * CALIBER) , m_Screen.height - (2 * CALIBER) };
     /*top = { screen.x, screen.y, playableBorder.width, playableBorder.y };
     bottom = { screen.x, playableBorder.height + CALIBER, screen.width, screen.y };*/
+	m_Ball = { 0, 0, CALIBER, CALIBER };
+	m_LeftRacket = { m_PlayableBorder.x + CALIBER, m_PlayableBorder.height / 2, CALIBER, 5 * CALIBER };
+	m_RightRacket = { m_PlayableBorder.width - CALIBER, m_PlayableBorder.height / 2, CALIBER, 5 * CALIBER };
+
     SetTargetFPS(60);
     ResetGame();
 }
