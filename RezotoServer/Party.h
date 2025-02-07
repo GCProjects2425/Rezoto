@@ -32,8 +32,6 @@ private:
 	//Room variables
 	std::vector<Player*> m_vPlayerList;
 	int m_ID;
-	int rightScore;
-	int leftScore;
 
 	//Game variables
 	LeRectangle m_Screen, m_PlayableBorder, m_Top, m_Bottom, m_Ball, m_LeftRacket, m_RightRacket;

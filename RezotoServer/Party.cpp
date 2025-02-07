@@ -37,12 +37,12 @@ void Party::ComputeBallPos()
             // Score.
             if (m_Ball.x < m_Screen.x)
             {
-                ++rightScore;
+                ++m_iRightScore;
                 ServeBall();
             }
             else if (m_Ball.x > m_Screen.width)
             {
-                ++leftScore;
+                ++m_iLeftScore;
                 ServeBall();
             }
         }
