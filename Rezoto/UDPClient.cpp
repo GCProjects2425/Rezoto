@@ -101,8 +101,8 @@ void UDPClient::Run()
 #ifdef _DEBUG
 				std::cout << "Message received from server: " << answer << "\n";
 #endif
-				std::shared_ptr<Message> messageReceived(Message::fromString(answer));
-				m_MessagesReceived.push(std::move(messageReceived));
+				std::shared_ptr<Message> messageReceived = std::make_shared<Message>(Message::fromString(answer));
+				m_MessagesReceived.push(messageReceived);
 			}
 		}
 	}
@@ -142,9 +142,9 @@ void UDPClient::PingServer()
 void UDPClient::ManageMessages()
 {
 	int i = 0;
-	while (!this->IsEmpty() && i < 20)
+	while (!IsEmpty() && i < 20)
 	{
-		std::shared_ptr<Message> message = this->PopReceivedMessage();
+		std::shared_ptr<Message> message = PopReceivedMessage();
 		if (message == nullptr) continue;
 		switch (message->type)
 		{
