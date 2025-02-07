@@ -64,7 +64,7 @@ void ConnectionRoom::TryConnectRoom()
 		return;
 	}
 	
-	UDPClient::GetInstance()->PushMessage(Message::Connect,"Ouais salut mon pote");
+	UDPClient::GetInstance()->Connect(IpField->m_cContent,8888,UsernameField->m_cContent);
 	GameClient::GetInstance()->SetScreen(GameClient::GetInstance()->PongScreen);
 }
 

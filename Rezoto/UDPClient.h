@@ -22,7 +22,7 @@ public:
     UDPClient();
     ~UDPClient();
 
-    void Connect(std::string ip, int port);
+    void Connect(std::string ip, int port, std::string username);
     void Run();
 
     void PushMessage(Message::MessageType type, std::string message);
