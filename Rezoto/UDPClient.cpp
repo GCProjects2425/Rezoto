@@ -34,7 +34,7 @@ UDPClient::~UDPClient()
 	WSACleanup();
 }
 
-void UDPClient::Connect(std::string ip, int port)
+void UDPClient::Connect(std::string ip, int port, std::string username)
 {
 	// setup address structure
 	server.sin_family = AF_INET;
@@ -42,7 +42,7 @@ void UDPClient::Connect(std::string ip, int port)
 	server.sin_addr.s_addr = inet_addr(ip.c_str()); // Utiliser l'IP passée en paramètre
 
 	// En UDP, pas besoin de `connect()`
-	PushMessage(Message::Connect, "Salut");
+	PushMessage(Message::Connect, std::move(username));
 	m_isConnected = true;
 }
 
