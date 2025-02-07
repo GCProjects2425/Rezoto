@@ -90,7 +90,6 @@ void UDPServer::Start()
             messageReceived->ip = inet_ntoa(client.sin_addr);
             messageReceived->port = client.sin_port;
             m_MessagesReceived.push(messageReceived);
-			PushMessage(Message::MessageType::Ping, "Pong", messageReceived->ip, messageReceived->port);
         }
 
     }

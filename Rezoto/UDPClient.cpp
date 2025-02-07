@@ -52,6 +52,8 @@ void UDPClient::Run()
 	int slen = sizeof(sockaddr_in);
 	while (true) {
 		if (m_isConnected) {
+			PingServer();
+
 			// Envoi d'un message au serveur
 			std::shared_ptr<Message> messageToSend = nullptr;
 			{
@@ -82,6 +84,10 @@ void UDPClient::Run()
 				int errorCode = WSAGetLastError();
 				if (errorCode == WSAEWOULDBLOCK) {
 					continue; // Pas de données pour l'instant
+				}
+				if (errorCode == WSAECONNRESET)
+				{
+					continue;
 				}
 				std::cout << "recvfrom() failed with error code: " << errorCode << "\n";
 				break;
@@ -120,4 +126,13 @@ std::shared_ptr<Message> UDPClient::PopReceivedMessage()
 bool UDPClient::IsEmpty() {
 	std::lock_guard<std::mutex> lock(queueMutex);
 	return m_MessagesToSend.empty();
+}
+
+void UDPClient::PingServer()
+{
+	if (m_isConnected && difftime(time(0), lastPing) > 1)
+	{
+		PushMessage(Message::Ping, "Ping");
+		lastPing = time(0);
+	}
 }
