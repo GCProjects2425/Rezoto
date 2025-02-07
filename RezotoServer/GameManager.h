@@ -3,6 +3,7 @@
 #include "Singleton.h"
 #include "Party.h"
 #include "UDPServer.h"
+#include "GameStatus.h"
 
 class GameManager final : public Singleton<GameManager>
 {

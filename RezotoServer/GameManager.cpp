@@ -47,17 +47,25 @@ void GameManager::Update()
 		std::vector<Player*> playerList = party.GetPlayerList();
 		for (int i = 0; i < playerList.size(); i++)
 		{
-			//BALL POS
-			m_server->PushMessage(Message::GameStatus, party.GetBallPos().toString(), playerList[i]->ip, 8888);
+			GameStatus* gameStatus = new GameStatus();
 
-			//RACKETS POS
-			m_server->PushMessage(Message::GameStatus, party.GetLeftRacketPos().toString(), playerList[i]->ip, 8888);
-			m_server->PushMessage(Message::GameStatus, party.GetRightRacketPos().toString(), playerList[i]->ip, 8888);
+			gameStatus->m_BallPos = party.GetBallPos();
+			gameStatus->m_LeftRacketPos = party.GetLeftRacketPos();
+			gameStatus->m_RightRacketPos = party.GetRightRacketPos();
 
-			//SCORES & WINNER
-			m_server->PushMessage(Message::GameStatus, std::to_string(party.GetLeftScore()), playerList[i]->ip, 8888);
-			m_server->PushMessage(Message::GameStatus, std::to_string(party.GetRightScore()), playerList[i]->ip, 8888);
-			m_server->PushMessage(Message::GameStatus, std::to_string(party.GetWinner()), playerList[i]->ip, 8888);
+			m_server->PushMessage(Message::GameStatus, gameStatus->toString(), playerList[i]->ip, 8888);
+			
+			////BALL POS
+			//m_server->PushMessage(Message::GameStatus, party.GetBallPos().toString(), playerList[i]->ip, 8888);
+
+			////RACKETS POS
+			//m_server->PushMessage(Message::GameStatus, party.GetLeftRacketPos().toString(), playerList[i]->ip, 8888);
+			//m_server->PushMessage(Message::GameStatus, party.GetRightRacketPos().toString(), playerList[i]->ip, 8888);
+
+			////SCORES & WINNER
+			//m_server->PushMessage(Message::GameStatus, std::to_string(party.GetLeftScore()), playerList[i]->ip, 8888);
+			//m_server->PushMessage(Message::GameStatus, std::to_string(party.GetRightScore()), playerList[i]->ip, 8888);
+			//m_server->PushMessage(Message::GameStatus, std::to_string(party.GetWinner()), playerList[i]->ip, 8888);
 		}
 	}
 }

@@ -3,12 +3,12 @@
 #include <string>
 struct GameStatus
 {
-    LeVector2 player1PaddlePos;
-    LeVector2 player2PaddlePos;
-    LeVector2 ballPos;
+    LeVector2 m_LeftRacketPos;
+    LeVector2 m_RightRacketPos;
+    LeVector2 m_BallPos;
 
     std::string toString() const {
-        return player1PaddlePos.toString() + ";" + player2PaddlePos.toString() + ";" + ballPos.toString();
+        return m_LeftRacketPos.toString() + ";" + m_RightRacketPos.toString() + ";" + m_BallPos.toString();
     }
 
     static GameStatus fromString(const std::string& str) {
@@ -20,9 +20,9 @@ struct GameStatus
         std::getline(ss, v2, ';');
         std::getline(ss, v3, ';');
 
-        gs.player1PaddlePos = LeVector2::fromString(v1);
-        gs.player2PaddlePos = LeVector2::fromString(v2);
-        gs.ballPos = LeVector2::fromString(v3);
+        gs.m_LeftRacketPos = LeVector2::fromString(v1);
+        gs.m_RightRacketPos = LeVector2::fromString(v2);
+        gs.m_BallPos = LeVector2::fromString(v3);
 
         return gs;
     }
