@@ -92,6 +92,8 @@ void GameManager::Update()
 
 			UDPServer::GetInstance()->PushMessage(Message::GameStatus, gameStatus->toString(), playerList[i]->ip, 8888);
 			
+			//TODO SEND SCORE & WINNER ON MODIFIED CONDITION
+
 			////BALL POS
 			//m_server->PushMessage(Message::GameStatus, party.GetBallPos().toString(), playerList[i]->ip, 8888);
 
