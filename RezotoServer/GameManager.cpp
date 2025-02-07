@@ -66,6 +66,15 @@ void GameManager::Update()
 {
 	ManageMessages();
 
+	for (Player& player : m_lPlayers)
+	{
+		if (time(0) - player.lastPing > 2)
+		{
+			if (RemovePlayerByIP(player.ip) > 0)
+				break;
+		}
+	}
+
 	for (Party& party : m_lParties)
 	{
 		//UPDATE GAME
@@ -100,6 +109,14 @@ void GameManager::Update()
 	}
 }
 
+void GameManager::PingPlayer(const std::string& ip)
+{
+	if (Player* player = FindPlayerByIP(ip))
+	{
+		player->lastPing = time(0);
+	}
+}
+
 void GameManager::ManageMessages()
 {
 	while (!UDPServer::GetInstance()->IsEmpty())
@@ -107,6 +124,9 @@ void GameManager::ManageMessages()
 		std::shared_ptr<Message> message = UDPServer::GetInstance()->PopReceivedMessage();
 		switch (message->type)
 		{
+		case Message::Ping:
+			PingPlayer(message->ip);
+			break;
 		case Message::Connect:
 			RegisterPlayer(message->ip, message->message, message->port);
 			break;
@@ -146,9 +166,9 @@ int GameManager::RemovePlayerByIP(const std::string& searchIP)
     for (PlayerList::iterator it = m_lPlayers.begin(); it != m_lPlayers.end(); ++it) {
         if (it->ip == searchIP) {
             m_lPlayers.erase(it);
+			m_isPlayerListUpdated = true;
             return 1;
         }
     }
-
     return -1;
 }

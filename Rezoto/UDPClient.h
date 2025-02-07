@@ -29,6 +29,8 @@ public:
     std::shared_ptr<Message> PopReceivedMessage();
     bool IsEmpty();
 private:
+	void PingServer();
+
     WSADATA ws{};
     SOCKET client_socket = 0;
     sockaddr_in server{};
@@ -36,5 +38,6 @@ private:
     std::queue<std::shared_ptr<Message>> m_MessagesReceived;
     std::mutex queueMutex;
 
+	time_t lastPing = 0;
     bool m_isConnected = 0;
 };

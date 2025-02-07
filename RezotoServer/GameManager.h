@@ -30,7 +30,9 @@ public:
 	void Run();
 private:
 	void Update();
-	
+
+	void PingPlayer(const std::string& ip);
+
 	PartyList m_lParties;
 	PlayerList m_lPlayers;
 
