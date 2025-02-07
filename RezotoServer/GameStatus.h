@@ -1,6 +1,6 @@
 #pragma once
 #include "CustomStruct.h"
-#include <string>
+
 struct GameStatus
 {
     LeVector2 m_LeftRacketPos;

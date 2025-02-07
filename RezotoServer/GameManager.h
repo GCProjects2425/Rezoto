@@ -2,7 +2,6 @@
 #include <list>
 #include "Singleton.h"
 #include "Party.h"
-#include "UDPServer.h"
 #include "GameStatus.h"
 
 class GameManager final : public Singleton<GameManager>
@@ -21,6 +20,5 @@ public:
 	const PartyList& GetPartyList() const { return m_lParties; }
 private:
 	PartyList m_lParties;
-	UDPServer* m_server;
 };
 

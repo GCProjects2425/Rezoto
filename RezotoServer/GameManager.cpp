@@ -1,9 +1,9 @@
 #include "GameManager.h"
+#include "UDPServer.h"
 
 GameManager::GameManager()
 {
 	srand((unsigned int)time(NULL));
-	m_server = UDPServer::GetInstance();
 }
 
 int GameManager::CreateParty()
@@ -53,7 +53,7 @@ void GameManager::Update()
 			gameStatus->m_LeftRacketPos = party.GetLeftRacketPos();
 			gameStatus->m_RightRacketPos = party.GetRightRacketPos();
 
-			m_server->PushMessage(Message::GameStatus, gameStatus->toString(), playerList[i]->ip, 8888);
+			UDPServer::GetInstance()->PushMessage(Message::GameStatus, gameStatus->toString(), playerList[i]->ip, 8888);
 			
 			////BALL POS
 			//m_server->PushMessage(Message::GameStatus, party.GetBallPos().toString(), playerList[i]->ip, 8888);
