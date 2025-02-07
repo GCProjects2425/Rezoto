@@ -111,7 +111,7 @@ void UDPClient::Run()
 void UDPClient::PushMessage(Message::MessageType type, std::string message)
 {
 	std::lock_guard<std::mutex> lock(queueMutex);
-	m_MessagesToSend.push(std::make_shared<Message>(type, std::move(message)));
+	m_MessagesToSend.push(std::make_shared<Message>(type, std::move(message), Message::globalSequenceNumber));
 }
 
 std::shared_ptr<Message> UDPClient::PopReceivedMessage()
@@ -145,6 +145,10 @@ void UDPClient::ManageMessages()
 	while (!IsEmpty() && i < 20)
 	{
 		std::shared_ptr<Message> message = PopReceivedMessage();
+
+		if (LastMessageSequence < message->sequenceNumber)
+			continue;
+		LastMessageSequence = message->sequenceNumber;
 		if (message == nullptr) continue;
 		switch (message->type)
 		{

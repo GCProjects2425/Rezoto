@@ -108,7 +108,7 @@ void GameManager::Update()
 			gameStatus->m_LeftRacketPos = party.GetLeftRacketPos();
 			gameStatus->m_RightRacketPos = party.GetRightRacketPos();
 
-			UDPServer::GetInstance()->PushMessage(Message::GameStatus, gameStatus->toString(), playerList[i]->ip, 8888);
+			UDPServer::GetInstance()->PushMessage(Message::GameStatus, gameStatus->toString(), playerList[i]->ip, playerList[i]->port);
 			
 			//TODO SEND SCORE & WINNER ON MODIFIED CONDITION
 

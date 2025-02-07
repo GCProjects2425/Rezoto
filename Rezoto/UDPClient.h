@@ -21,7 +21,7 @@ class UDPClient :
 public:
     UDPClient();
     ~UDPClient();
-
+    uint32_t LastMessageSequence;
     void Connect(std::string ip, int port, std::string username);
     void Run();
 
