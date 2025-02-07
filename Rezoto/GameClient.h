@@ -9,6 +9,7 @@
 #include "PongScreen.h"
 #include "TitleScreen.h"
 #include "ConnectionRoom.h"
+#include "GameStatus.h"
 
 #define CALIBER 12
 
@@ -45,8 +46,10 @@ public:
 	void SendInput();
 	void Draw();
 
+	void ComputeStatus(GameStatus status);
+
 	int Run();
 
-	void ComputeGameplayScreen();
+	void ComputeGameplayScreen(GameStatus gs);
 };
 

@@ -102,6 +102,18 @@ void GameClient::Draw()
     DrawRectangle(m_RightRacket.x, m_RightRacket.y, m_RightRacket.width, m_RightRacket.height, WHITE);
 }
 
+void GameClient::ComputeStatus(GameStatus status)
+{
+    m_Ball.x = status.m_BallPos.x;
+    m_Ball.y = status.m_BallPos.y;
+
+    m_RightRacket.x = status.m_RightRacketPos.x;
+    m_RightRacket.y = status.m_RightRacketPos.y;
+
+    m_LeftRacket.x = status.m_LeftRacketPos.x;
+    m_LeftRacket.y = status.m_LeftRacketPos.y;
+}
+
 //CLIENT
 int GameClient::Run()
 {
@@ -134,6 +146,19 @@ int GameClient::Run()
 
     CloseWindow();
     return 0;
+}
+
+void GameClient::ComputeGameplayScreen(GameStatus gs)
+{
+    m_Ball.x = gs.m_BallPos.x;
+    m_Ball.y = gs.m_BallPos.y;
+
+    m_RightRacket.x = gs.m_RightRacketPos.x;
+    m_RightRacket.y = gs.m_RightRacketPos.y;
+
+    m_LeftRacket.x = gs.m_LeftRacketPos.x;
+    m_LeftRacket.y = gs.m_LeftRacketPos.y;
+
 }
 
 //SERVER COMPUTE - TRANSFERT

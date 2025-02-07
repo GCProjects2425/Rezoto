@@ -25,6 +25,12 @@ void Party::ComputeGame()
     ComputeRacketPos(&m_LeftRacket, m_LeftRacketDir);
     ComputeRacketPos(&m_RightRacket, m_RightRacketDir);
 
+    m_LeftRacketPos.x = m_LeftRacket.x;
+    m_LeftRacketPos.y = m_LeftRacket.y;
+
+    m_RightRacketPos.x = m_RightRacket.x;
+    m_RightRacketPos.y = m_RightRacket.y;
+
     CheckWinner();
 }
 
@@ -58,6 +64,9 @@ void Party::ComputeBallPos()
     // Move ball.
     m_Ball.x += xx;
     m_Ball.y += yy;
+
+    m_BallPos.x = m_Ball.x;
+    m_BallPos.y = m_Ball.y;
 
 
 

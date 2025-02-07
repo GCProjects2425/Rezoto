@@ -16,3 +16,4 @@ bool UIManager::IsKeyPressed(CustomKey key)
 {
 	return RAYLIB_H::IsKeyPressed(key);
 }
+

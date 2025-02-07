@@ -31,6 +31,8 @@ public:
 private:
 	void PingServer();
 
+    void ManageMessages();
+
     WSADATA ws{};
     SOCKET client_socket = 0;
     sockaddr_in server{};

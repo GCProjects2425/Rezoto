@@ -1,6 +1,7 @@
 #include "UDPClient.h"
-
+#include "GameClient.h"
 #include <iostream>
+#include "GameStatus.h"
 
 #define BUFLEN 0xFFF  // max length of answer - header datas
 #define SERVER /*"10.1.40.125"*/"127.0.0.1"
@@ -134,5 +135,42 @@ void UDPClient::PingServer()
 	{
 		PushMessage(Message::Ping, "Ping");
 		lastPing = time(0);
+	}
+}
+
+void UDPClient::ManageMessages()
+{
+	int i = 0;
+	while (this->IsEmpty() && i < 20)
+	{
+		std::shared_ptr<Message> message = this->PopReceivedMessage();
+		if (message == nullptr) continue;
+		switch (message->type)
+		{
+		case Message::GameStatus:
+			GameClient::GetInstance()->ComputeStatus(GameStatus::fromString(message->message));
+			break;
+		case Message::Ping:
+			break;
+		case Message::Connect:
+			break;
+		case Message::Disconnect:
+			break;
+		case Message::Ready:
+			break;
+		case Message::Unready:
+			break;
+		case Message::Play:
+			break;
+		case Message::Stop:
+			break;
+		case Message::Win:
+			break;
+		case Message::Lose:
+			break;
+		default:
+			break;
+		}
+		i++;
 	}
 }

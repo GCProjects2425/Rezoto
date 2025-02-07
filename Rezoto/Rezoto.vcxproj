@@ -139,6 +139,7 @@
     <ClCompile Include="ConnectionRoom.cpp" />
     <ClCompile Include="CustomStruct.cpp" />
     <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="GameStatus.cpp" />
     <ClCompile Include="InputField.cpp" />
     <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="Message.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="ConnectionRoom.h" />
     <ClInclude Include="CustomStruct.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="GameStatus.h" />
     <ClInclude Include="InputField.h" />
     <ClInclude Include="GameClient.h" />
     <ClInclude Include="Message.h" />
