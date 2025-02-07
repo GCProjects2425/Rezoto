@@ -104,6 +104,7 @@ void UDPClient::Run()
 				m_MessagesReceived.push(std::move(messageReceived));
 			}
 		}
+		ManageMessages();
 	}
 }
 
