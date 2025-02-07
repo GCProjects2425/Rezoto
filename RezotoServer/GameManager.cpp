@@ -12,6 +12,7 @@ int GameManager::CreateParty()
 
 	Party& it = m_lParties.emplace_back();
 
+	m_isPartyListUpdated = true;
 	return it.GetID();
 }
 
@@ -49,6 +50,16 @@ const bool GameManager::IsPlayerListUpdated()
 	if (m_isPlayerListUpdated)
 	{
 		m_isPlayerListUpdated = false;
+		return true;
+	}
+	return false;
+}
+
+const bool GameManager::IsPartyListUpdated()
+{
+	if (m_isPartyListUpdated)
+	{
+		m_isPartyListUpdated = false;
 		return true;
 	}
 	return false;

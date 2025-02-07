@@ -178,6 +178,8 @@ LRESULT GameServerGUI::HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
     {
 		if (GameManager::GetInstance()->IsPlayerListUpdated())
 			UpdatePlayerList();
+		if (GameManager::GetInstance()->IsPartyListUpdated())
+			UpdateListBox();
     }
     break;
 

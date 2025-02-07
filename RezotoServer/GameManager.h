@@ -26,6 +26,7 @@ public:
 	const PlayerList& GetPlayerList() const { return m_lPlayers; }
 
 	const bool IsPlayerListUpdated();
+	const bool IsPartyListUpdated();
 
 	void Run();
 private:
@@ -37,5 +38,6 @@ private:
 	PlayerList m_lPlayers;
 
 	bool m_isPlayerListUpdated = false;
+	bool m_isPartyListUpdated = false;
 };
 
